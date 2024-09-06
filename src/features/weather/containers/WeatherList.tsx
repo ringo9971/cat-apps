@@ -21,12 +21,14 @@ export const WeatherListContainer = (): JSX.Element => {
 
   return (
     <Box>
-      <CityAutoComplete
-        text={text}
-        setText={setText}
-        citiesMaster={citiesMaster}
-        addCity={handleAddCity}
-      />
+      <Box mb={2}>
+        <CityAutoComplete
+          text={text}
+          setText={setText}
+          citiesMaster={citiesMaster}
+          addCity={handleAddCity}
+        />
+      </Box>
       <WeatherList weathers={weathers} />
     </Box>
   );
