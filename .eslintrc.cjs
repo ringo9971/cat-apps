@@ -46,5 +46,6 @@ module.exports = {
         ],
       },
     ],
+    'import/no-relative-parent-imports': 'warn',
   },
 };

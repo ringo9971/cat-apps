@@ -1,5 +1,4 @@
 import { Box, Grid } from '@mui/material';
-
 import { SelectAppCard } from 'components/SelectAppCard';
 import { useUser } from 'hooks/firebase/useUser';
 
