@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 interface SelectAppCardProps {
   item: string;
   to: string;
+  disabled?: boolean;
 }
 
 export const SelectAppCard = ({
   item,
   to,
+  disabled,
 }: SelectAppCardProps): JSX.Element => {
   return (
     <Grid item xs={6}>
@@ -17,8 +19,9 @@ export const SelectAppCard = ({
         variant="outlined"
         component={Link}
         to={to}
+        disabled={disabled}
       >
-        {item}
+        {disabled ? '???' : item}
       </Button>
     </Grid>
   );
