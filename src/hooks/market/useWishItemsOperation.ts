@@ -95,6 +95,10 @@ const useWishItemsOperation = (): UseWishItemsOperationState => {
       setWishList(res);
     };
     fetch();
+
+    const intervalId = setInterval(() => fetch(), 10000);
+
+    return () => clearInterval(intervalId);
   }, [getWishList, setWishList]);
 
   return {
