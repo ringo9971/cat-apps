@@ -19,7 +19,7 @@ export const WishItemCreateDialog = ({
   });
 
   const updateWishItem = (name?: string, tag?: string) => {
-    setWishItem({ name: name ?? '', tag: tag ?? '食品' });
+    setWishItem((w) => ({ name: name ?? w.name, tag: tag ?? w.tag }));
   };
 
   const onCreateWishItem = async () => {
