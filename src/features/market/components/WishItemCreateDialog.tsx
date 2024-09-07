@@ -36,7 +36,7 @@ const WishListCreateDialog = ({
         />
         <Autocomplete
           options={['食品', '日用品', '家具家電']}
-          value={'食品'}
+          value={wishItem.tag}
           onInputChange={(_, selected: string) =>
             updateWishItem(wishItem.name, selected)
           }
