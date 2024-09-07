@@ -9,6 +9,7 @@ export interface WishItem {
 export interface CreateWishItem {
   name: string;
   tag: string;
+  check?: boolean;
 }
 
 export interface UpdateWishItem {

@@ -15,7 +15,7 @@ const WishList = ({
 }: WishListProps): JSX.Element => {
   const getTagColor = (tag: string) => {
     switch (tag) {
-      case '食材':
+      case '食品':
         return 'orange';
       case '日用品':
         return 'green';

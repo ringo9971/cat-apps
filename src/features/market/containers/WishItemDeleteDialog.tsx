@@ -1,20 +1,19 @@
 import Component from 'features/market/components/WishItemDeleteDialog';
-import useWishItemsOperation from 'hooks/market/useWishItemsOperation';
 import { WishItem } from 'types/market/WishItem';
 
 interface WishItemDeleteDialogProps {
   open: boolean;
   onClose: () => void;
   wishItem: WishItem;
+  deleteWishItem: (wishItem: WishItem) => Promise<WishItem>;
 }
 
 export const WishItemDeleteDialog = ({
   open,
   onClose,
   wishItem,
+  deleteWishItem,
 }: WishItemDeleteDialogProps): JSX.Element => {
-  const { deleteWishItem } = useWishItemsOperation();
-
   const onDeleteWishItem = async () => {
     await deleteWishItem(wishItem);
     onClose();

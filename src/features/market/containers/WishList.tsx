@@ -7,43 +7,15 @@ import useWishItemsOperation from 'hooks/market/useWishItemsOperation';
 
 export const WishListContainer = (): JSX.Element => {
   const {
+    wishList,
     dialogState,
     openCreateDialog,
     openDeleteDialog,
     closeDialog,
+    createWishItem,
+    deleteWishItem,
     toggleWishItem,
   } = useWishItemsOperation();
-
-  const wishList = [
-    {
-      id: '0',
-      time: new Date(),
-      name: 'うどん',
-      tag: '食材',
-      check: false,
-    },
-    {
-      id: '1',
-      time: new Date(),
-      name: 'そば',
-      tag: '食材',
-      check: true,
-    },
-    {
-      id: '2',
-      time: new Date(),
-      name: 'トイレットペーパー',
-      tag: '日用品',
-      check: true,
-    },
-    {
-      id: '3',
-      time: new Date(),
-      name: '冷蔵庫',
-      tag: '家具家電',
-      check: false,
-    },
-  ];
 
   return (
     <Box>
@@ -66,13 +38,18 @@ export const WishListContainer = (): JSX.Element => {
         onCheck={toggleWishItem}
       />
       {dialogState.open === 'create' && (
-        <WishItemCreateDialog open onClose={closeDialog} />
+        <WishItemCreateDialog
+          open
+          onClose={closeDialog}
+          createWishItem={createWishItem}
+        />
       )}
       {dialogState.open === 'delete' && (
         <WishItemDeleteDialog
           open
           onClose={closeDialog}
           wishItem={dialogState.wishItem}
+          deleteWishItem={deleteWishItem}
         />
       )}
     </Box>

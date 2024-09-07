@@ -1,18 +1,18 @@
 import Component from 'features/market/components/WishItemCreateDialog';
-import useWishItemsOperation from 'hooks/market/useWishItemsOperation';
 import { useState } from 'react';
-import { CreateWishItem } from 'types/market/WishItem';
+import { CreateWishItem, WishItem } from 'types/market/WishItem';
 
 interface WishItemCreateDialogProps {
   open: boolean;
   onClose: () => void;
+  createWishItem: (wishItem: CreateWishItem) => Promise<WishItem>;
 }
 
 export const WishItemCreateDialog = ({
   open,
   onClose,
+  createWishItem,
 }: WishItemCreateDialogProps): JSX.Element => {
-  const { createWishItem } = useWishItemsOperation();
   const [wishItem, setWishItem] = useState<CreateWishItem>({
     name: '',
     tag: '食品',
