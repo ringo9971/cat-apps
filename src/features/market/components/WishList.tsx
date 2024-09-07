@@ -26,29 +26,6 @@ const WishList = ({
     }
   };
 
-  const getImage = (tag: string) => {
-    switch (tag) {
-      case '食材':
-        return `repeating-linear-gradient(
-                  -45deg, 
-                  white, 
-                  white 2px, 
-                  transparent 2px, 
-                  transparent 8px
-                )`;
-      case '日用品':
-        return `repeating-linear-gradient(
-                  0deg, 
-                  white, 
-                  white 2px, 
-                  transparent 2px, 
-                  transparent 8px
-                )`;
-      default:
-        return;
-    }
-  };
-
   return (
     <Box>
       {wishList.map((wishItem) => (
@@ -63,7 +40,6 @@ const WishList = ({
             sx={{
               width: 16,
               backgroundColor: getTagColor(wishItem.tag),
-              backgroundImage: getImage(wishItem.tag),
             }}
           />
           <CardContent>{wishItem.name}</CardContent>
