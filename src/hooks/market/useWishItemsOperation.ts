@@ -77,6 +77,9 @@ const useWishItemsOperation = (): UseWishItemsOperationState => {
       ...wishItem,
       check: !wishItem.check,
     };
+    setWishList((list) =>
+      list.map((l) => (l.id === wishItem.id ? toggledData : l))
+    );
     const res = await apiClient.updateListItem<WishItem>(
       'market',
       'wishList',
