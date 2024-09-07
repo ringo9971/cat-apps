@@ -1,4 +1,4 @@
-import { useApiClient } from 'lib/ApiClientContext';
+import { useApiClient } from 'hooks/useApiClient';
 import { useCallback, useEffect, useState } from 'react';
 import { CreateWishItem, WishItem } from 'types/market/WishItem';
 
