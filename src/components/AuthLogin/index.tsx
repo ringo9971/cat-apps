@@ -12,7 +12,6 @@ import useFirebase from 'hooks/firebase/useFirebase';
 import { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 const AuthLogin = () => {
   const { auth } = useFirebase();
 

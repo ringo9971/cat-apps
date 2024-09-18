@@ -1,14 +1,25 @@
-import { doc, Firestore, getDoc, setDoc } from 'firebase/firestore';
+import {
+  doc,
+  DocumentData,
+  Firestore,
+  getDoc,
+  setDoc,
+} from 'firebase/firestore';
 import { WithId } from 'types/WithId';
 import { v4 as uuidv4 } from 'uuid';
 
 export class ApiClient {
   constructor(private firestore: Firestore) {}
 
+  async get<T>(collection: string, path: string): Promise<T | null> {
+    const docSnap = await getDoc(doc(this.firestore, collection, path));
+    if (docSnap.data() == null) return null;
+    return docSnap.data() as T;
+  }
+
   async getList<T>(collection: string, path: string): Promise<T> {
     const docSnap = await getDoc(doc(this.firestore, collection, path));
     const data = (docSnap.data()?.list as T) ?? ([] as T);
-    console.log(JSON.stringify(data));
     return data;
   }
 
@@ -34,6 +45,16 @@ export class ApiClient {
     );
 
     return addData as U;
+  }
+
+  async update<T extends DocumentData>(
+    collection: string,
+    path: string,
+    data: T
+  ): Promise<T> {
+    await setDoc(doc(this.firestore, collection, path), data, { merge: true });
+
+    return data;
   }
 
   async updateListItem<T extends WithId>(
