@@ -19,6 +19,5 @@ export interface WishFood {
 }
 
 export interface CreateWishFood {
-  time: Date;
   name: string;
 }
