@@ -1,4 +1,5 @@
 import DeleteIcon from '@mui/icons-material/Delete';
+import RedoIcon from '@mui/icons-material/Redo';
 import { Box, Card, CardContent, IconButton } from '@mui/material';
 import { WeeklyMenu, FoodMenu } from 'types/market/FoodMenu';
 
@@ -31,10 +32,16 @@ const getWeekly = (id: number): string => {
 interface MenuComponentProps {
   id: number;
   menu: FoodMenu;
+  openMoveWishFoodDialog: (day: number, menu: string) => void;
   openDeleteDialog: (day: number, menu: string) => void;
 }
 
-const MenuComponent = ({ id, menu, openDeleteDialog }: MenuComponentProps) => (
+const MenuComponent = ({
+  id,
+  menu,
+  openDeleteDialog,
+  openMoveWishFoodDialog,
+}: MenuComponentProps) => (
   <Card
     sx={{
       display: 'flex',
@@ -61,6 +68,9 @@ const MenuComponent = ({ id, menu, openDeleteDialog }: MenuComponentProps) => (
           <CardContent>{m}</CardContent>
           {m !== '' && (
             <Box display="flex" justifyContent="flex-end" sx={{ flexGrow: 1 }}>
+              <IconButton onClick={() => openMoveWishFoodDialog(id, m)}>
+                <RedoIcon />
+              </IconButton>
               <IconButton onClick={() => openDeleteDialog(id, m)}>
                 <DeleteIcon />
               </IconButton>
@@ -74,11 +84,13 @@ const MenuComponent = ({ id, menu, openDeleteDialog }: MenuComponentProps) => (
 
 interface WeeklyMenuComponentProps {
   menu: WeeklyMenu;
+  openMoveWishFoodDialog: (day: number, menu: string) => void;
   openDeleteDialog: (day: number, menu: string) => void;
 }
 
 const WeeklyMenuComponent = ({
   menu,
+  openMoveWishFoodDialog,
   openDeleteDialog,
 }: WeeklyMenuComponentProps): JSX.Element => {
   return (
@@ -86,36 +98,43 @@ const WeeklyMenuComponent = ({
       <MenuComponent
         id={0}
         menu={menu.mon}
+        openMoveWishFoodDialog={openMoveWishFoodDialog}
         openDeleteDialog={openDeleteDialog}
       />
       <MenuComponent
         id={1}
         menu={menu.tue}
+        openMoveWishFoodDialog={openMoveWishFoodDialog}
         openDeleteDialog={openDeleteDialog}
       />
       <MenuComponent
         id={2}
         menu={menu.wed}
+        openMoveWishFoodDialog={openMoveWishFoodDialog}
         openDeleteDialog={openDeleteDialog}
       />
       <MenuComponent
         id={3}
         menu={menu.thu}
+        openMoveWishFoodDialog={openMoveWishFoodDialog}
         openDeleteDialog={openDeleteDialog}
       />
       <MenuComponent
         id={4}
         menu={menu.fri}
+        openMoveWishFoodDialog={openMoveWishFoodDialog}
         openDeleteDialog={openDeleteDialog}
       />
       <MenuComponent
         id={5}
         menu={menu.sat}
+        openMoveWishFoodDialog={openMoveWishFoodDialog}
         openDeleteDialog={openDeleteDialog}
       />
       <MenuComponent
         id={6}
         menu={menu.sun}
+        openMoveWishFoodDialog={openMoveWishFoodDialog}
         openDeleteDialog={openDeleteDialog}
       />
     </Box>

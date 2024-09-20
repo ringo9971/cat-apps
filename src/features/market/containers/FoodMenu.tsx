@@ -3,6 +3,7 @@ import { Box, IconButton } from '@mui/material';
 import WeeklyMenu from 'features/market/components/WeeklyMenu';
 import WishFood from 'features/market/components/WishFood';
 import MoveWeeklyMenuDialog from 'features/market/containers/MoveWeeklyMenuDialog';
+import MoveWishFoodDialog from 'features/market/containers/MoveWishFoodDialog';
 import WeeklyMenuCreateDialog from 'features/market/containers/WeeklyMenuCreateDialog';
 import WeeklyMenuDeleteDialog from 'features/market/containers/WeeklyMenuDeleteDialog';
 import WishFoodCreateDialog from 'features/market/containers/WishFoodCreateDialog';
@@ -31,6 +32,7 @@ export const FoodMenuContainer = (): JSX.Element => {
   const {
     dialogState: moveDialogState,
     openToWeeklyMenuDialog,
+    openToWishFoodDialog,
     closeDialog: closeMoveDialog,
   } = useMoveDialog();
 
@@ -48,7 +50,11 @@ export const FoodMenuContainer = (): JSX.Element => {
           </IconButton>
         </Box>
       </Box>
-      <WeeklyMenu menu={weeklyMenu} openDeleteDialog={openDeleteDialog} />
+      <WeeklyMenu
+        menu={weeklyMenu}
+        openMoveWishFoodDialog={openToWishFoodDialog}
+        openDeleteDialog={openDeleteDialog}
+      />
       <WeeklyMenuCreateDialog
         open={dialogState.open === 'create'}
         onClose={closeDialog}
@@ -73,6 +79,16 @@ export const FoodMenuContainer = (): JSX.Element => {
         onClose={closeFoodDialog}
         createWishFood={addFood}
       />
+      {moveDialogState.open === 'toWishFood' && (
+        <MoveWishFoodDialog
+          open={moveDialogState.open === 'toWishFood'}
+          onClose={closeMoveDialog}
+          day={moveDialogState.day}
+          menu={moveDialogState.menu}
+          addFood={addFood}
+          deleteWeeklyMenu={deleteMenu}
+        />
+      )}
       {moveDialogState.open === 'toWeeklyMenu' && (
         <MoveWeeklyMenuDialog
           open={moveDialogState.open === 'toWeeklyMenu'}
