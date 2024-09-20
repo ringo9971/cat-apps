@@ -21,6 +21,7 @@ interface UseFoodMenuOperationState {
   openDeleteDialog: (food: WishFood) => void;
   closeDialog: () => void;
   addFood: (food: CreateWishFood) => Promise<WishFood>;
+  deleteFood: (food: WishFood) => Promise<WishFood>;
 }
 
 const useFoodMenuOperation = (): UseFoodMenuOperationState => {
@@ -56,6 +57,16 @@ const useFoodMenuOperation = (): UseFoodMenuOperationState => {
     return res;
   };
 
+  const deleteFood = async (food: WishFood): Promise<WishFood> => {
+    const res = await apiClient.deleteListItem<WishFood>(
+      'market',
+      'wishFood',
+      food
+    );
+    setWishFoods((foods) => foods.filter((f) => f.id !== food.id));
+    return res;
+  };
+
   useEffect(() => {
     const fetch = async () => {
       const res = await getWishFoods();
@@ -71,6 +82,7 @@ const useFoodMenuOperation = (): UseFoodMenuOperationState => {
     openDeleteDialog,
     closeDialog,
     addFood,
+    deleteFood,
   };
 };
 

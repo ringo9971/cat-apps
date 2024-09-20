@@ -2,9 +2,11 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Box, IconButton } from '@mui/material';
 import WeeklyMenu from 'features/market/components/WeeklyMenu';
 import WishFood from 'features/market/components/WishFood';
+import MoveWeeklyMenuDialog from 'features/market/containers/MoveWeeklyMenuDialog';
 import WeeklyMenuCreateDialog from 'features/market/containers/WeeklyMenuCreateDialog';
 import WeeklyMenuDeleteDialog from 'features/market/containers/WeeklyMenuDeleteDialog';
 import WishFoodCreateDialog from 'features/market/containers/WishFoodCreateDialog';
+import useMoveDialog from 'hooks/market/useMoveDialog';
 import useWeeklyMenuOperation from 'hooks/market/useWeeklyMenuOperation';
 import useFoodMenuOperation from 'hooks/market/useWishFoodOperation';
 
@@ -24,7 +26,13 @@ export const FoodMenuContainer = (): JSX.Element => {
     openCreateDialog: openFoodCreateDialog,
     closeDialog: closeFoodDialog,
     addFood,
+    deleteFood,
   } = useFoodMenuOperation();
+  const {
+    dialogState: moveDialogState,
+    openToWeeklyMenuDialog,
+    closeDialog: closeMoveDialog,
+  } = useMoveDialog();
 
   return (
     <Box>
@@ -55,12 +63,25 @@ export const FoodMenuContainer = (): JSX.Element => {
           deleteMenu={deleteMenu}
         />
       )}
-      <WishFood foods={wishFoods} openCreateDialog={openFoodCreateDialog} />
+      <WishFood
+        foods={wishFoods}
+        openCreateDialog={openFoodCreateDialog}
+        openMoveWeeklyMenuDialog={openToWeeklyMenuDialog}
+      />
       <WishFoodCreateDialog
         open={foodDialogState.open === 'create'}
         onClose={closeFoodDialog}
         createWishFood={addFood}
       />
+      {moveDialogState.open === 'toWeeklyMenu' && (
+        <MoveWeeklyMenuDialog
+          open={moveDialogState.open === 'toWeeklyMenu'}
+          onClose={closeMoveDialog}
+          food={moveDialogState.food}
+          addMenu={addMenu}
+          deleteWishFood={deleteFood}
+        />
+      )}
     </Box>
   );
 };
