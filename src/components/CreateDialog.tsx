@@ -7,30 +7,31 @@ import {
   Grid,
   TextField,
 } from '@mui/material';
-import { CreateToDoItem } from 'types/market/ToDoItem';
 
-export interface ToDoItemCreateDialogProps {
+export interface CreateDialogProps<T> {
   open: boolean;
   onClose: () => void;
   onCreate: () => void;
-  item: CreateToDoItem;
-  updateToDoItem: (item: string) => void;
+  title: string;
+  item: T;
+  updateItem: (item: string) => void;
 }
 
-const ToDoItemCreateDialog = ({
+const CreateDialog = <T extends { name: string }>({
   open,
   onClose,
   onCreate,
+  title,
   item,
-  updateToDoItem: updateToDoItem,
-}: ToDoItemCreateDialogProps): JSX.Element => (
+  updateItem,
+}: CreateDialogProps<T>): JSX.Element => (
   <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth={true}>
-    <DialogTitle>メモ</DialogTitle>
+    <DialogTitle>{title}</DialogTitle>
     <DialogContent>
       <Grid container>
         <TextField
           value={item.name}
-          onChange={(e) => updateToDoItem(e.target.value)}
+          onChange={(e) => updateItem(e.target.value)}
           sx={{ width: '80%' }}
         />
       </Grid>
@@ -44,4 +45,4 @@ const ToDoItemCreateDialog = ({
   </Dialog>
 );
 
-export default ToDoItemCreateDialog;
+export default CreateDialog;

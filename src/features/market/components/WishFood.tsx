@@ -7,12 +7,14 @@ import { WishFood } from 'types/market/FoodMenu';
 interface WishFoodComponentProps {
   foods: Array<WishFood>;
   openCreateDialog: () => void;
+  openDeleteDialog: (food: WishFood) => void;
   openMoveWeeklyMenuDialog: (food: WishFood) => void;
 }
 
 const WishFoodComponent = ({
   foods,
   openCreateDialog,
+  openDeleteDialog,
   openMoveWeeklyMenuDialog,
 }: WishFoodComponentProps): JSX.Element => {
   return (
@@ -43,7 +45,7 @@ const WishFoodComponent = ({
             <IconButton onClick={() => openMoveWeeklyMenuDialog(food)}>
               <ImportExportIcon />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={() => openDeleteDialog(food)}>
               <DeleteIcon />
             </IconButton>
           </Box>

@@ -6,21 +6,20 @@ import {
   DialogTitle,
   Grid,
 } from '@mui/material';
-import { UpdateToDoItem } from 'types/market/ToDoItem';
 
-export interface ToDoItemDeleteDialogProps {
+export interface DeleteDialogProps<T> {
   open: boolean;
   onClose: () => void;
   onDelete: () => void;
-  item: UpdateToDoItem;
+  item: T;
 }
 
-const ToDoItemDeleteDialog = ({
+const DeleteDialog = <T extends { name: string }>({
   open,
   onClose,
   onDelete,
   item,
-}: ToDoItemDeleteDialogProps): JSX.Element => (
+}: DeleteDialogProps<T>): JSX.Element => (
   <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth={true}>
     <DialogTitle>削除の確認</DialogTitle>
     <DialogContent>
@@ -35,4 +34,4 @@ const ToDoItemDeleteDialog = ({
   </Dialog>
 );
 
-export default ToDoItemDeleteDialog;
+export default DeleteDialog;

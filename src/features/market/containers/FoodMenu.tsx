@@ -1,12 +1,13 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Box, IconButton } from '@mui/material';
+import WishFoodCreateDialog from 'containers/CreateDialog';
+import WishFoodDeleteDialog from 'containers/DeleteDialog';
 import WeeklyMenu from 'features/market/components/WeeklyMenu';
 import WishFood from 'features/market/components/WishFood';
 import MoveWeeklyMenuDialog from 'features/market/containers/MoveWeeklyMenuDialog';
 import MoveWishFoodDialog from 'features/market/containers/MoveWishFoodDialog';
 import WeeklyMenuCreateDialog from 'features/market/containers/WeeklyMenuCreateDialog';
 import WeeklyMenuDeleteDialog from 'features/market/containers/WeeklyMenuDeleteDialog';
-import WishFoodCreateDialog from 'features/market/containers/WishFoodCreateDialog';
 import useMoveDialog from 'hooks/market/useMoveDialog';
 import useWeeklyMenuOperation from 'hooks/market/useWeeklyMenuOperation';
 import useFoodMenuOperation from 'hooks/market/useWishFoodOperation';
@@ -25,6 +26,7 @@ export const FoodMenuContainer = (): JSX.Element => {
     wishFoods,
     dialogState: foodDialogState,
     openCreateDialog: openFoodCreateDialog,
+    openDeleteDialog: openFoodDeleteDialog,
     closeDialog: closeFoodDialog,
     addFood,
     deleteFood,
@@ -72,13 +74,23 @@ export const FoodMenuContainer = (): JSX.Element => {
       <WishFood
         foods={wishFoods}
         openCreateDialog={openFoodCreateDialog}
+        openDeleteDialog={openFoodDeleteDialog}
         openMoveWeeklyMenuDialog={openToWeeklyMenuDialog}
       />
       <WishFoodCreateDialog
         open={foodDialogState.open === 'create'}
         onClose={closeFoodDialog}
-        createWishFood={addFood}
+        title="食べたいもの"
+        addItem={addFood}
       />
+      {foodDialogState.open === 'delete' && (
+        <WishFoodDeleteDialog
+          open={foodDialogState.open === 'delete'}
+          onClose={closeFoodDialog}
+          item={foodDialogState.food}
+          deleteItem={deleteFood}
+        />
+      )}
       {moveDialogState.open === 'toWishFood' && (
         <MoveWishFoodDialog
           open={moveDialogState.open === 'toWishFood'}

@@ -1,8 +1,8 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Box, IconButton } from '@mui/material';
+import ToDoItemCreateDialog from 'containers/CreateDialog';
+import ToDoItemDeleteDialog from 'containers/DeleteDialog';
 import ToDoList from 'features/market/components/ToDoList';
-import ToDoItemCreateDialog from 'features/market/containers/ToDoItemCreateDialog';
-import ToDoItemDeleteDialog from 'features/market/containers/ToDoItemDeleteDialog';
 import useToDoOperation from 'hooks/market/useToDoOperation';
 
 export const ToDoListContainer = (): JSX.Element => {
@@ -33,15 +33,16 @@ export const ToDoListContainer = (): JSX.Element => {
       <ToDoList items={items} onDelete={openDeleteDialog} />
       <ToDoItemCreateDialog
         open={dialogState.open === 'create'}
+        title="メモ"
         addItem={addItem}
         onClose={closeDialog}
       />
       {dialogState.open === 'delete' && (
         <ToDoItemDeleteDialog
           open={dialogState.open === 'delete'}
-          item={dialogState.item}
-          onDelete={deleteItem}
           onClose={closeDialog}
+          item={dialogState.item}
+          deleteItem={deleteItem}
         />
       )}
     </Box>
