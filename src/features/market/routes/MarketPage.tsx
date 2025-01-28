@@ -3,6 +3,9 @@ import FoodMenuContainer from 'features/market/containers/FoodMenu';
 import ToDoListContainer from 'features/market/containers/ToDoList';
 import WishListContainer from 'features/market/containers/WishList';
 import { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/css';
 
 export const MarketPage = (): JSX.Element => {
   const [tabpage, setTabpage] = useState(0);
@@ -14,11 +17,22 @@ export const MarketPage = (): JSX.Element => {
         <Tab label="献立" />
         <Tab label="ToDo" />
       </Tabs>
-      <Box>
-        {tabpage === 0 && <WishListContainer />}
-        {tabpage === 1 && <FoodMenuContainer />}
-        {tabpage === 2 && <ToDoListContainer />}
-      </Box>
+      <Swiper
+        onSlideChange={(swiper) => setTabpage(swiper.activeIndex)}
+        initialSlide={tabpage}
+        spaceBetween={16}
+        slidesPerView={1}
+      >
+        <SwiperSlide>
+          <WishListContainer />
+        </SwiperSlide>
+        <SwiperSlide>
+          <FoodMenuContainer />
+        </SwiperSlide>
+        <SwiperSlide>
+          <ToDoListContainer />
+        </SwiperSlide>
+      </Swiper>
     </Box>
   );
 };
