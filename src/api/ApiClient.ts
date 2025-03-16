@@ -26,7 +26,8 @@ export class ApiClient {
   async addListItem<T, U>(
     collection: string,
     path: string,
-    data: T
+    data: T,
+    prepend: boolean = false
   ): Promise<U> {
     const res = await this.getList<Array<T>>(collection, path);
 
@@ -36,7 +37,11 @@ export class ApiClient {
       ...data,
     };
 
-    res.push(addData);
+    if (prepend) {
+      res.unshift(addData);
+    } else {
+      res.push(addData);
+    }
 
     await setDoc(
       doc(this.firestore, collection, path),

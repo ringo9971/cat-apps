@@ -5,7 +5,10 @@ import { CreateWishItem, WishItem } from 'types/market/WishItem';
 interface WishItemCreateDialogProps {
   open: boolean;
   onClose: () => void;
-  createWishItem: (wishItem: CreateWishItem) => Promise<WishItem>;
+  createWishItem: (
+    wishItem: CreateWishItem,
+    prepend?: boolean
+  ) => Promise<WishItem>;
 }
 
 export const WishItemCreateDialog = ({
@@ -23,7 +26,7 @@ export const WishItemCreateDialog = ({
   };
 
   const onCreateWishItem = async () => {
-    await createWishItem(wishItem);
+    await createWishItem(wishItem, true);
     onClose();
   };
 

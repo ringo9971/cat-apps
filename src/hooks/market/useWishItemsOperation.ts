@@ -20,7 +20,10 @@ interface UseWishItemsOperationState {
   openCreateDialog: () => void;
   openDeleteDialog: (wishItem: WishItem) => void;
   closeDialog: () => void;
-  createWishItem: (wishItem: CreateWishItem) => Promise<WishItem>;
+  createWishItem: (
+    wishItem: CreateWishItem,
+    prepend?: boolean
+  ) => Promise<WishItem>;
   deleteWishItem: (wishItem: WishItem) => Promise<WishItem>;
   toggleWishItem: (wishItem: WishItem) => Promise<WishItem>;
   sortWishList: (wishList: Array<WishItem>) => Promise<Array<WishItem>>;
@@ -49,7 +52,8 @@ const useWishItemsOperation = (): UseWishItemsOperationState => {
   }, [apiClient]);
 
   const createWishItem = async (
-    wishItem: CreateWishItem
+    wishItem: CreateWishItem,
+    prepend?: boolean
   ): Promise<WishItem> => {
     const res = await apiClient.addListItem<CreateWishItem, WishItem>(
       'market',
@@ -57,9 +61,10 @@ const useWishItemsOperation = (): UseWishItemsOperationState => {
       {
         check: false,
         ...wishItem,
-      }
+      },
+      prepend
     );
-    setWishList((list) => [...list, res]);
+    setWishList((list) => (prepend ? [res, ...list] : [...list, res]));
     return res;
   };
 
