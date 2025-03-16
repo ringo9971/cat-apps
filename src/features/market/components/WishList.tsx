@@ -95,7 +95,7 @@ const WishList = ({
 }: WishListProps): JSX.Element => {
   const pointerSensor = useSensor(PointerSensor, {});
   const touchSensor = useSensor(TouchSensor, {
-    activationConstraint: { tolerance: 5, delay: 50 },
+    activationConstraint: { tolerance: 5, delay: 500 },
   });
   const sensors = useSensors(...(isMobile ? [touchSensor] : [pointerSensor]));
 
