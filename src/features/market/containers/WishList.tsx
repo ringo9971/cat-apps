@@ -28,7 +28,13 @@ export const WishListContainer = (): JSX.Element => {
     createWishItem,
     deleteWishItem,
     toggleWishItem,
+    sortWishList,
   } = useWishItemsOperation();
+
+  const isMobile = useMemo(
+    () => window.matchMedia('(pointer: coarse)').matches,
+    []
+  );
 
   const sortedWishList = useMemo(() => wishList.sort(sortByTag), [wishList]);
 
@@ -48,9 +54,11 @@ export const WishListContainer = (): JSX.Element => {
         </Box>
       </Box>
       <WishList
+        isMobile={isMobile}
         wishList={sortedWishList}
         onDelete={openDeleteDialog}
         onCheck={toggleWishItem}
+        onDragEnd={sortWishList}
       />
       {dialogState.open === 'create' && (
         <WishItemCreateDialog

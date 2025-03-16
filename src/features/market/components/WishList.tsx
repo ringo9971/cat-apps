@@ -1,5 +1,23 @@
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import {
+  arrayMove,
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Card, Checkbox, CardContent, IconButton } from '@mui/material';
+import { useState, useEffect } from 'react';
 import { WishItem } from 'types/market/WishItem';
 
 type WishItemCardProps = {
@@ -13,6 +31,9 @@ const WishItemCard = ({
   onDelete,
   onCheck,
 }: WishItemCardProps): JSX.Element => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: wishItem.id });
+
   const getTagColor = (tag: string) => {
     switch (tag) {
       case '食品':
@@ -29,9 +50,15 @@ const WishItemCard = ({
   return (
     <Card
       key={JSON.stringify(wishItem)}
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
       sx={{
         display: 'flex',
         flexDirection: 'row',
+        transform: CSS.Transform.toString(transform),
+        transition,
+        cursor: 'grab',
       }}
     >
       <Box
@@ -52,25 +79,76 @@ const WishItemCard = ({
 };
 
 type WishListProps = {
+  isMobile: boolean;
   wishList: Array<WishItem>;
   onDelete: (wishItem: WishItem) => void;
   onCheck: (wishItem: WishItem) => void;
+  onDragEnd: (WishList: Array<WishItem>) => void;
 };
 
 const WishList = ({
+  isMobile,
   wishList,
   onDelete,
   onCheck,
+  onDragEnd,
 }: WishListProps): JSX.Element => {
+  const pointerSensor = useSensor(PointerSensor, {});
+  const touchSensor = useSensor(TouchSensor, {
+    activationConstraint: { tolerance: 5, delay: 50 },
+  });
+  const sensors = useSensors(...(isMobile ? [touchSensor] : [pointerSensor]));
+
+  const modifiers = [restrictToVerticalAxis];
+
+  const [isDragging, setIsDragging] = useState(false); // DnD が開始されたかどうか
+
+  useEffect(() => {
+    if (isDragging) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isDragging]);
+
+  const handleDragStart = () => {
+    setIsDragging(true);
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    setIsDragging(false);
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = wishList.findIndex((item) => item.id === active.id);
+    const newIndex = wishList.findIndex((item) => item.id === over.id);
+    const newWishList = arrayMove(wishList, oldIndex, newIndex);
+    onDragEnd(newWishList);
+  };
+
   return (
     <Box>
-      {wishList.map((wishItem) => (
-        <WishItemCard
-          wishItem={wishItem}
-          onDelete={onDelete}
-          onCheck={onCheck}
-        />
-      ))}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        modifiers={modifiers}
+      >
+        <SortableContext
+          items={wishList}
+          strategy={verticalListSortingStrategy}
+        >
+          {wishList.map((wishItem) => (
+            <WishItemCard
+              key={wishItem.id}
+              wishItem={wishItem}
+              onDelete={onDelete}
+              onCheck={onCheck}
+            />
+          ))}
+        </SortableContext>
+      </DndContext>
     </Box>
   );
 };

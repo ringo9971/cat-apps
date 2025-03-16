@@ -3,8 +3,8 @@ import FoodMenuContainer from 'features/market/containers/FoodMenu';
 import ToDoListContainer from 'features/market/containers/ToDoList';
 import WishListContainer from 'features/market/containers/WishList';
 import { useRef, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 
@@ -30,6 +30,8 @@ export const MarketPage = (): JSX.Element => {
         initialSlide={tabpage}
         spaceBetween={16}
         slidesPerView={1}
+        touchStartPreventDefault={false}
+        noSwipingClass="dnd-item"
       >
         <SwiperSlide>
           <WishListContainer />

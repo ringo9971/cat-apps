@@ -23,6 +23,7 @@ interface UseWishItemsOperationState {
   createWishItem: (wishItem: CreateWishItem) => Promise<WishItem>;
   deleteWishItem: (wishItem: WishItem) => Promise<WishItem>;
   toggleWishItem: (wishItem: WishItem) => Promise<WishItem>;
+  sortWishList: (wishList: Array<WishItem>) => Promise<Array<WishItem>>;
 }
 
 const useWishItemsOperation = (): UseWishItemsOperationState => {
@@ -89,6 +90,21 @@ const useWishItemsOperation = (): UseWishItemsOperationState => {
     return res;
   };
 
+  const sortWishList = async (
+    wishList: Array<WishItem>
+  ): Promise<Array<WishItem>> => {
+    setWishList(wishList);
+    const res = await apiClient.update<{ list: Array<WishItem> }>(
+      'market',
+      'wishList',
+      {
+        list: wishList,
+      }
+    );
+    setWishList(res.list);
+    return res.list;
+  };
+
   useEffect(() => {
     const fetch = async () => {
       const res = await getWishList();
@@ -110,6 +126,7 @@ const useWishItemsOperation = (): UseWishItemsOperationState => {
     createWishItem,
     deleteWishItem,
     toggleWishItem,
+    sortWishList,
   };
 };
 
