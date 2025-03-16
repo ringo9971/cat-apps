@@ -5,18 +5,6 @@ import WishItemCreateDialog from 'features/market/containers/WishItemCreateDialo
 import WishItemDeleteDialog from 'features/market/containers/WishItemDeleteDialog';
 import useWishItemsOperation from 'hooks/market/useWishItemsOperation';
 import { useMemo } from 'react';
-import { WishItem } from 'types/market/WishItem';
-
-const sortByTag = (a: WishItem, b: WishItem) => {
-  const order = ['食品', '日用品', '家具家電'];
-  const indexA = order.indexOf(a.tag);
-  const indexB = order.indexOf(b.tag);
-
-  if (indexA === -1) return 1;
-  if (indexB === -1) return -1;
-
-  return indexA - indexB;
-};
 
 export const WishListContainer = (): JSX.Element => {
   const {
@@ -36,8 +24,6 @@ export const WishListContainer = (): JSX.Element => {
     []
   );
 
-  const sortedWishList = useMemo(() => wishList.sort(sortByTag), [wishList]);
-
   return (
     <Box>
       <Box display="flex" alignItems="center">
@@ -55,7 +41,7 @@ export const WishListContainer = (): JSX.Element => {
       </Box>
       <WishList
         isMobile={isMobile}
-        wishList={sortedWishList}
+        wishList={wishList}
         onDelete={openDeleteDialog}
         onCheck={toggleWishItem}
         onDragEnd={sortWishList}
