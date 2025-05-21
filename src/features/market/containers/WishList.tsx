@@ -15,7 +15,7 @@ export const WishListContainer = (): JSX.Element => {
     closeDialog,
     createWishItem,
     deleteWishItem,
-    toggleWishItem,
+    toggleAndMoveWishItem,
     sortWishList,
   } = useWishItemsOperation();
 
@@ -43,7 +43,7 @@ export const WishListContainer = (): JSX.Element => {
         isMobile={isMobile}
         wishList={wishList}
         onDelete={openDeleteDialog}
-        onCheck={toggleWishItem}
+        onCheck={toggleAndMoveWishItem}
         onDragEnd={sortWishList}
       />
       {dialogState.open === 'create' && (

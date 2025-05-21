@@ -26,6 +26,7 @@ interface UseWishItemsOperationState {
   ) => Promise<WishItem>;
   deleteWishItem: (wishItem: WishItem) => Promise<WishItem>;
   toggleWishItem: (wishItem: WishItem) => Promise<WishItem>;
+  toggleAndMoveWishItem: (wishItem: WishItem) => Promise<WishItem>;
   sortWishList: (wishList: Array<WishItem>) => Promise<Array<WishItem>>;
 }
 
@@ -95,6 +96,37 @@ const useWishItemsOperation = (): UseWishItemsOperationState => {
     return res;
   };
 
+  const toggleAndMoveWishItem = async (
+    wishItem: WishItem
+  ): Promise<WishItem> => {
+    const toggledData = {
+      ...wishItem,
+      check: !wishItem.check,
+    };
+
+    const newList = moveWishItem(wishList, toggledData);
+    setWishList(newList);
+    await apiClient.update<{ list: Array<WishItem> }>('market', 'wishList', {
+      list: newList,
+    });
+    return toggledData;
+  };
+
+  const moveWishItem = (
+    list: Array<WishItem>,
+    item: WishItem
+  ): Array<WishItem> => {
+    const filtered = list.filter((w) => w.id !== item.id);
+
+    if (item.check) {
+      const index = filtered.findIndex((w) => w.check);
+      if (index === -1) return [...filtered, item];
+      return [...filtered.slice(0, index), item, ...filtered.slice(index)];
+    } else {
+      return [item, ...filtered];
+    }
+  };
+
   const sortWishList = async (
     wishList: Array<WishItem>
   ): Promise<Array<WishItem>> => {
@@ -131,6 +163,7 @@ const useWishItemsOperation = (): UseWishItemsOperationState => {
     createWishItem,
     deleteWishItem,
     toggleWishItem,
+    toggleAndMoveWishItem,
     sortWishList,
   };
 };
