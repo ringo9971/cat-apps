@@ -52,7 +52,6 @@ const WishItemCard = ({
       key={JSON.stringify(wishItem)}
       ref={setNodeRef}
       {...attributes}
-      {...listeners}
       sx={{
         display: 'flex',
         flexDirection: 'row',
@@ -63,14 +62,34 @@ const WishItemCard = ({
     >
       <Box
         sx={{
-          width: 16,
-          backgroundColor: getTagColor(wishItem.tag),
+          display: 'flex',
+          alignItems: 'stretch',
+          flexGrow: 1,
         }}
-      />
-      <CardContent>{wishItem.name}</CardContent>
+        {...listeners}
+      >
+        <Box
+          sx={{
+            width: 16,
+            backgroundColor: getTagColor(wishItem.tag),
+          }}
+        />
+        <CardContent>{wishItem.name}</CardContent>
+      </Box>
       <Box display="flex" justifyContent="flex-end" sx={{ flexGrow: 1 }}>
-        <Checkbox checked={wishItem.check} onClick={() => onCheck(wishItem)} />
-        <IconButton onClick={() => onDelete(wishItem)}>
+        <Checkbox
+          checked={wishItem.check}
+          onClick={(e) => {
+            e.stopPropagation();
+            onCheck(wishItem);
+          }}
+        />
+        <IconButton
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(wishItem);
+          }}
+        >
           <DeleteIcon />
         </IconButton>
       </Box>
