@@ -1,7 +1,7 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Box, IconButton } from '@mui/material';
-import WishFoodCreateDialog from 'containers/CreateDialog';
-import WishFoodDeleteDialog from 'containers/DeleteDialog';
+import WishFoodCreateDialog from 'containers/CreateDialog/index';
+import WishFoodDeleteDialog from 'containers/DeleteDialog/index';
 import WeeklyMenu from 'features/market/components/WeeklyMenu';
 import WishFood from 'features/market/components/WishFood';
 import MoveWeeklyMenuDialog from 'features/market/containers/MoveWeeklyMenuDialog';

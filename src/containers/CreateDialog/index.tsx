@@ -1,4 +1,4 @@
-import Component from 'components/CreateDialog';
+import Component from 'components/CreateDialog/index';
 import { useState } from 'react';
 
 interface CreateDialogProps<T, U> {

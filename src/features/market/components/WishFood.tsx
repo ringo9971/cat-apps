@@ -2,21 +2,21 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import { Box, Card, CardContent, IconButton } from '@mui/material';
-import { WishFood } from 'types/market/FoodMenu';
+import { type WishFood } from 'types/market/FoodMenu';
 
-interface WishFoodComponentProps {
+interface WishFoodProps {
   foods: Array<WishFood>;
   openCreateDialog: () => void;
   openDeleteDialog: (food: WishFood) => void;
   openMoveWeeklyMenuDialog: (food: WishFood) => void;
 }
 
-const WishFoodComponent = ({
+const WishFood = ({
   foods,
   openCreateDialog,
   openDeleteDialog,
   openMoveWeeklyMenuDialog,
-}: WishFoodComponentProps): JSX.Element => {
+}: WishFoodProps): JSX.Element => {
   return (
     <Box>
       <Box display="flex" alignItems="center">
@@ -34,7 +34,7 @@ const WishFoodComponent = ({
       </Box>
       {foods.map((food) => (
         <Card
-          key={JSON.stringify(food.id)}
+          key={food.id}
           sx={{
             display: 'flex',
             flexDirection: 'row',
@@ -42,10 +42,10 @@ const WishFoodComponent = ({
         >
           <CardContent>{food.name}</CardContent>
           <Box display="flex" justifyContent="flex-end" sx={{ flexGrow: 1 }}>
-            <IconButton onClick={() => openMoveWeeklyMenuDialog(food)}>
+            <IconButton onClick={() => openMoveWeeklyMenuDialog(food as WishFood)}>
               <ImportExportIcon />
             </IconButton>
-            <IconButton onClick={() => openDeleteDialog(food)}>
+            <IconButton onClick={() => openDeleteDialog(food as WishFood)}>
               <DeleteIcon />
             </IconButton>
           </Box>
@@ -55,4 +55,4 @@ const WishFoodComponent = ({
   );
 };
 
-export default WishFoodComponent;
+export default WishFood;

@@ -26,6 +26,19 @@ type WishItemCardProps = {
   onCheck: (wishItem: WishItem) => void;
 };
 
+const getTagColor = (tag: string) => {
+  switch (tag) {
+    case '食品':
+      return 'orange';
+    case '日用品':
+      return 'green';
+    case '家具家電':
+      return 'brown';
+    default:
+      return 'gray';
+  }
+};
+
 const WishItemCard = ({
   wishItem,
   onDelete,
@@ -34,22 +47,9 @@ const WishItemCard = ({
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: wishItem.id });
 
-  const getTagColor = (tag: string) => {
-    switch (tag) {
-      case '食品':
-        return 'orange';
-      case '日用品':
-        return 'green';
-      case '家具家電':
-        return 'brown';
-      default:
-        return 'gray';
-    }
-  };
-
   return (
     <Card
-      key={JSON.stringify(wishItem)}
+      key={wishItem.id}
       ref={setNodeRef}
       {...attributes}
       sx={{

@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
 
-export interface WishListCreateDialogProps {
+export interface WeeklyMenuCreateDialogProps {
   open: boolean;
   onClose: () => void;
   onCreateClick: () => void;
@@ -24,7 +24,7 @@ export interface WishListCreateDialogProps {
 const labels = ['月', '火', '水', '木', '金', '土', '日'];
 const daysOfWeek = [0, 1, 2, 3, 4, 5, 6];
 
-const WishListCreateDialog = ({
+const WeeklyMenuCreateDialog = ({
   open,
   onClose,
   onCreateClick,
@@ -32,7 +32,7 @@ const WishListCreateDialog = ({
   setDay,
   menu,
   setMenu,
-}: WishListCreateDialogProps): JSX.Element => (
+}: WeeklyMenuCreateDialogProps): JSX.Element => (
   <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth={true}>
     <DialogTitle>食べたいもの</DialogTitle>
     <DialogContent>
@@ -60,4 +60,4 @@ const WishListCreateDialog = ({
   </Dialog>
 );
 
-export default WishListCreateDialog;
+export default WeeklyMenuCreateDialog;

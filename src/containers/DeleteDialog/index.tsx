@@ -1,4 +1,4 @@
-import Component from 'components/DeleteDialog';
+import Component from 'components/DeleteDialog/index';
 
 interface DeleteDialogProps<T> {
   open: boolean;

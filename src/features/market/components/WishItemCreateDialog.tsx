@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { UpdateWishItem } from 'types/market/WishItem';
 
-export interface WishListCreateDialogProps {
+export interface WishItemCreateDialogProps {
   open: boolean;
   onClose: () => void;
   onCreateClick: () => void;
@@ -18,13 +18,13 @@ export interface WishListCreateDialogProps {
   updateWishItem: (name?: string, tag?: string) => void;
 }
 
-const WishListCreateDialog = ({
+const WishItemCreateDialog = ({
   open,
   onClose,
   onCreateClick,
   wishItem,
   updateWishItem,
-}: WishListCreateDialogProps): JSX.Element => (
+}: WishItemCreateDialogProps): JSX.Element => (
   <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth={true}>
     <DialogTitle>欲しいもの</DialogTitle>
     <DialogContent>
@@ -54,4 +54,4 @@ const WishListCreateDialog = ({
   </Dialog>
 );
 
-export default WishListCreateDialog;
+export default WishItemCreateDialog;

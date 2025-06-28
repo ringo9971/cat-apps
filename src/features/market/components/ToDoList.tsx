@@ -11,7 +11,7 @@ const ToDoList = ({ items, onDelete }: ToDoListProps): JSX.Element => (
   <Box>
     {items.map((item) => (
       <Card
-        key={JSON.stringify(item)}
+        key={item.id}
         sx={{
           display: 'flex',
           flexDirection: 'row',

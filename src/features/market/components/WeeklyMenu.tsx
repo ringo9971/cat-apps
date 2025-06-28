@@ -1,7 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import RedoIcon from '@mui/icons-material/Redo';
 import { Box, Card, CardContent, IconButton } from '@mui/material';
-import { WeeklyMenu, FoodMenu } from 'types/market/FoodMenu';
+import { type WeeklyMenu, FoodMenu } from 'types/market/FoodMenu';
 
 const getColor = (id: number) => {
   switch (id) {
@@ -82,17 +82,17 @@ const MenuComponent = ({
   </Card>
 );
 
-interface WeeklyMenuComponentProps {
+interface WeeklyMenuProps {
   menu: WeeklyMenu;
   openMoveWishFoodDialog: (day: number, menu: string) => void;
   openDeleteDialog: (day: number, menu: string) => void;
 }
 
-const WeeklyMenuComponent = ({
+const WeeklyMenu = ({
   menu,
   openMoveWishFoodDialog,
   openDeleteDialog,
-}: WeeklyMenuComponentProps): JSX.Element => {
+}: WeeklyMenuProps): JSX.Element => {
   return (
     <Box>
       <MenuComponent
@@ -141,4 +141,4 @@ const WeeklyMenuComponent = ({
   );
 };
 
-export default WeeklyMenuComponent;
+export default WeeklyMenu;

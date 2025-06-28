@@ -1,4 +1,4 @@
-import Component from 'features/market/components/MoveWeeklyMenuCreateDialog';
+import Component from 'features/market/components/MoveWeeklyMenuDialog';
 import { useState } from 'react';
 import { WeeklyMenu, WishFood } from 'types/market/FoodMenu';
 
