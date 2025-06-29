@@ -53,7 +53,7 @@ const useToDoOperation = (): UseToDoOperationState => {
       'toDo',
       item
     );
-    setItems((foods) => [...foods, res]);
+    setItems((items) => [...items, res]);
     return res;
   };
 

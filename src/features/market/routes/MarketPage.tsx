@@ -1,7 +1,9 @@
 import { Box, Tab, Tabs } from '@mui/material';
 import FoodMenuContainer from 'features/market/containers/FoodMenu';
+import RefrigeratorContainer from 'features/market/containers/RefrigeratorContainer';
 import ToDoListContainer from 'features/market/containers/ToDoList';
 import WishListContainer from 'features/market/containers/WishList';
+import useWishItemsOperation from 'hooks/market/useWishItemsOperation';
 import { useRef, useState } from 'react';
 import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -17,10 +19,24 @@ export const MarketPage = (): JSX.Element => {
     swiperRef.current?.slideTo(newValue);
   };
 
+  const {
+    wishList,
+    refrigeratorList,
+    dialogState,
+    openCreateDialog,
+    openDeleteDialog,
+    closeDialog,
+    createWishItem,
+    deleteWishItem,
+    toggleAndMoveWishItem,
+    sortWishList,
+  } = useWishItemsOperation();
+
   return (
     <Box>
       <Tabs value={tabpage} onChange={handleTabChange}>
         <Tab label="買い物" />
+        <Tab label="冷蔵庫" />
         <Tab label="献立" />
         <Tab label="ToDo" />
       </Tabs>
@@ -34,7 +50,27 @@ export const MarketPage = (): JSX.Element => {
         noSwipingClass="dnd-item"
       >
         <SwiperSlide>
-          <WishListContainer />
+          <WishListContainer
+            wishList={wishList}
+            dialogState={dialogState}
+            openCreateDialog={openCreateDialog}
+            openDeleteDialog={openDeleteDialog}
+            closeDialog={closeDialog}
+            createWishItem={createWishItem}
+            deleteWishItem={deleteWishItem}
+            toggleAndMoveWishItem={toggleAndMoveWishItem}
+            sortWishList={sortWishList}
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <RefrigeratorContainer
+            refrigeratorList={refrigeratorList}
+            dialogState={dialogState}
+            openDeleteDialog={openDeleteDialog}
+            closeDialog={closeDialog}
+            deleteWishItem={deleteWishItem}
+            toggleAndMoveWishItem={toggleAndMoveWishItem}
+          />
         </SwiperSlide>
         <SwiperSlide>
           <FoodMenuContainer />

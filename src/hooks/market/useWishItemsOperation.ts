@@ -12,20 +12,27 @@ type DialogState =
   | {
       open: 'delete';
       wishItem: WishItem;
+      listType: 'wishList' | 'refrigeratorList';
     };
 
-interface UseWishItemsOperationState {
+export interface UseWishItemsOperationState {
   wishList: Array<WishItem>;
+  refrigeratorList: Array<WishItem>;
   dialogState: DialogState;
   openCreateDialog: () => void;
-  openDeleteDialog: (wishItem: WishItem) => void;
+  openDeleteDialog: (
+    wishItem: WishItem,
+    listType: 'wishList' | 'refrigeratorList'
+  ) => void;
   closeDialog: () => void;
   createWishItem: (
     wishItem: CreateWishItem,
     prepend?: boolean
   ) => Promise<WishItem>;
-  deleteWishItem: (wishItem: WishItem) => Promise<WishItem>;
-  toggleWishItem: (wishItem: WishItem) => Promise<WishItem>;
+  deleteWishItem: (
+    wishItem: WishItem,
+    listType: 'wishList' | 'refrigeratorList'
+  ) => Promise<WishItem>;
   toggleAndMoveWishItem: (wishItem: WishItem) => Promise<WishItem>;
   sortWishList: (wishList: Array<WishItem>) => Promise<Array<WishItem>>;
 }
@@ -33,23 +40,37 @@ interface UseWishItemsOperationState {
 const useWishItemsOperation = (): UseWishItemsOperationState => {
   const [dialogState, setDialogState] = useState<DialogState>({ open: null });
   const [wishList, setWishList] = useState<Array<WishItem>>([]);
+  const [refrigeratorList, setRefrigeratorList] = useState<Array<WishItem>>([]);
   const apiClient = useApiClient();
 
   const openCreateDialog = () => {
     setDialogState({ open: 'create' });
   };
 
-  const openDeleteDialog = (wishItem: WishItem) => {
-    setDialogState({ open: 'delete', wishItem });
+  const openDeleteDialog = (
+    wishItem: WishItem,
+    listType: 'wishList' | 'refrigeratorList'
+  ) => {
+    setDialogState({ open: 'delete', wishItem, listType });
   };
 
   const closeDialog = () => {
     setDialogState({ open: null });
   };
 
-  const getWishList = useCallback(async (): Promise<Array<WishItem>> => {
-    const res = await apiClient.getList<Array<WishItem>>('market', 'wishList');
-    return res;
+  const getWishLists = useCallback(async (): Promise<{
+    wishList: Array<WishItem>;
+    refrigeratorList: Array<WishItem>;
+  }> => {
+    const wishListRes = await apiClient.getList<Array<WishItem>>(
+      'market',
+      'wishList'
+    );
+    const refrigeratorListRes = await apiClient.getList<Array<WishItem>>(
+      'market',
+      'refrigeratorList'
+    );
+    return { wishList: wishListRes, refrigeratorList: refrigeratorListRes };
   }, [apiClient]);
 
   const createWishItem = async (
@@ -59,41 +80,29 @@ const useWishItemsOperation = (): UseWishItemsOperationState => {
     const res = await apiClient.addListItem<CreateWishItem, WishItem>(
       'market',
       'wishList',
-      {
-        check: false,
-        ...wishItem,
-      },
+      wishItem,
       prepend
     );
     setWishList((list) => (prepend ? [res, ...list] : [...list, res]));
     return res;
   };
 
-  const deleteWishItem = async (wishItem: WishItem): Promise<WishItem> => {
-    const res = await apiClient.deleteListItem<WishItem>(
-      'market',
-      'wishList',
-      wishItem
-    );
-    setWishList((list) => list.filter((l) => l.id !== res.id));
+  const deleteWishItem = async (
+    wishItem: WishItem,
+    listType: 'wishList' | 'refrigeratorList'
+  ): Promise<WishItem> => {
+    if (listType === 'wishList') {
+      setWishList((list) => list.filter((l) => l.id !== wishItem.id));
+      await apiClient.deleteListItem<WishItem>('market', 'wishList', wishItem);
+    } else if (listType === 'refrigeratorList') {
+      setRefrigeratorList((list) => list.filter((l) => l.id !== wishItem.id));
+      await apiClient.deleteListItem<WishItem>(
+        'market',
+        'refrigeratorList',
+        wishItem
+      );
+    }
     return wishItem;
-  };
-
-  const toggleWishItem = async (wishItem: WishItem): Promise<WishItem> => {
-    const toggledData = {
-      ...wishItem,
-      check: !wishItem.check,
-    };
-    setWishList((list) =>
-      list.map((l) => (l.id === wishItem.id ? toggledData : l))
-    );
-    const res = await apiClient.updateListItem<WishItem>(
-      'market',
-      'wishList',
-      toggledData
-    );
-    setWishList((list) => list.map((l) => (l.id === wishItem.id ? res : l)));
-    return res;
   };
 
   const toggleAndMoveWishItem = async (
@@ -104,11 +113,34 @@ const useWishItemsOperation = (): UseWishItemsOperationState => {
       check: !wishItem.check,
     };
 
-    const newList = moveWishItem(wishList, toggledData);
-    setWishList(newList);
-    await apiClient.update<{ list: Array<WishItem> }>('market', 'wishList', {
-      list: newList,
-    });
+    if (wishItem.tag === '食品') {
+      if (toggledData.check) {
+        // wishList から refrigeratorList へ移動
+        setWishList((list) => list.filter((w) => w.id !== toggledData.id));
+        setRefrigeratorList((list) => [...list, toggledData]);
+        await apiClient.deleteListItem('market', 'wishList', toggledData);
+        await apiClient.addListItem('market', 'refrigeratorList', toggledData);
+      } else {
+        // refrigeratorList から wishList へ移動
+        setRefrigeratorList((list) =>
+          list.filter((w) => w.id !== toggledData.id)
+        );
+        setWishList((list) => [toggledData, ...list]);
+        await apiClient.deleteListItem(
+          'market',
+          'refrigeratorList',
+          toggledData
+        );
+        await apiClient.addListItem('market', 'wishList', toggledData, true);
+      }
+    } else {
+      // 食品以外はタブ間の移動はなし
+      const newList = moveWishItem(wishList, toggledData);
+      setWishList(newList);
+      await apiClient.update<{ list: Array<WishItem> }>('market', 'wishList', {
+        list: newList,
+      });
+    }
     return toggledData;
   };
 
@@ -138,31 +170,31 @@ const useWishItemsOperation = (): UseWishItemsOperationState => {
         list: wishList,
       }
     );
-    setWishList(res.list);
     return res.list;
   };
 
   useEffect(() => {
     const fetch = async () => {
-      const res = await getWishList();
-      setWishList(res);
+      const { wishList, refrigeratorList } = await getWishLists();
+      setWishList(wishList);
+      setRefrigeratorList(refrigeratorList);
     };
     fetch();
 
     const intervalId = setInterval(() => fetch(), 10000);
 
     return () => clearInterval(intervalId);
-  }, [getWishList, setWishList]);
+  }, [getWishLists]);
 
   return {
     wishList,
+    refrigeratorList,
     dialogState,
     openCreateDialog,
     openDeleteDialog,
     closeDialog,
     createWishItem,
     deleteWishItem,
-    toggleWishItem,
     toggleAndMoveWishItem,
     sortWishList,
   };

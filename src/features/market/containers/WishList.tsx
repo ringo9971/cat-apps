@@ -3,22 +3,31 @@ import { Box, IconButton, TextField } from '@mui/material';
 import WishList from 'features/market/components/WishList';
 import WishItemCreateDialog from 'features/market/containers/WishItemCreateDialog';
 import WishItemDeleteDialog from 'features/market/containers/WishItemDeleteDialog';
-import useWishItemsOperation from 'hooks/market/useWishItemsOperation';
+import { UseWishItemsOperationState } from 'hooks/market/useWishItemsOperation';
 import { useMemo } from 'react';
 
-export const WishListContainer = (): JSX.Element => {
-  const {
-    wishList,
-    dialogState,
-    openCreateDialog,
-    openDeleteDialog,
-    closeDialog,
-    createWishItem,
-    deleteWishItem,
-    toggleAndMoveWishItem,
-    sortWishList,
-  } = useWishItemsOperation();
-
+export const WishListContainer = ({
+  wishList,
+  dialogState,
+  openCreateDialog,
+  openDeleteDialog,
+  closeDialog,
+  createWishItem,
+  deleteWishItem,
+  toggleAndMoveWishItem,
+  sortWishList,
+}: Pick<
+  UseWishItemsOperationState,
+  | 'wishList'
+  | 'dialogState'
+  | 'openCreateDialog'
+  | 'openDeleteDialog'
+  | 'closeDialog'
+  | 'createWishItem'
+  | 'deleteWishItem'
+  | 'toggleAndMoveWishItem'
+  | 'sortWishList'
+>): JSX.Element => {
   const isMobile = useMemo(
     () => window.matchMedia('(pointer: coarse)').matches,
     []
@@ -59,6 +68,7 @@ export const WishListContainer = (): JSX.Element => {
           onClose={closeDialog}
           wishItem={dialogState.wishItem}
           deleteWishItem={deleteWishItem}
+          listType={dialogState.listType}
         />
       )}
     </Box>

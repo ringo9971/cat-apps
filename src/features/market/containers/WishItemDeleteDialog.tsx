@@ -5,7 +5,8 @@ interface WishItemDeleteDialogProps {
   open: boolean;
   onClose: () => void;
   wishItem: WishItem;
-  deleteWishItem: (wishItem: WishItem) => Promise<WishItem>;
+  deleteWishItem: (wishItem: WishItem, listType: 'wishList' | 'refrigeratorList') => Promise<WishItem>;
+  listType: 'wishList' | 'refrigeratorList';
 }
 
 export const WishItemDeleteDialog = ({
@@ -13,9 +14,10 @@ export const WishItemDeleteDialog = ({
   onClose,
   wishItem,
   deleteWishItem,
+  listType,
 }: WishItemDeleteDialogProps): JSX.Element => {
   const onDeleteWishItem = async () => {
-    await deleteWishItem(wishItem);
+    await deleteWishItem(wishItem, listType);
     onClose();
   };
 

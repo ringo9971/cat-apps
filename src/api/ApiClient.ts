@@ -23,19 +23,19 @@ export class ApiClient {
     return data;
   }
 
-  async addListItem<T, U>(
+  async addListItem<TData, TResult extends TData & WithId & { time: Date }>(
     collection: string,
     path: string,
-    data: T,
+    data: TData,
     prepend: boolean = false
-  ): Promise<U> {
-    const res = await this.getList<Array<T>>(collection, path);
+  ): Promise<TResult> {
+    const res = await this.getList<Array<TResult>>(collection, path);
 
     const addData = {
       id: uuidv4(),
       time: new Date(),
       ...data,
-    };
+    } as TResult;
 
     if (prepend) {
       res.unshift(addData);
@@ -49,7 +49,7 @@ export class ApiClient {
       { merge: true }
     );
 
-    return addData as U;
+    return addData as TResult;
   }
 
   async update<T extends DocumentData>(

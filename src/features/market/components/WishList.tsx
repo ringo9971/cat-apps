@@ -22,8 +22,9 @@ import { WishItem } from 'types/market/WishItem';
 
 type WishItemCardProps = {
   wishItem: WishItem;
-  onDelete: (wishItem: WishItem) => void;
+  onDelete: (wishItem: WishItem, listType: 'wishList' | 'refrigeratorList') => void;
   onCheck: (wishItem: WishItem) => void;
+  listType: 'wishList' | 'refrigeratorList';
 };
 
 const getTagColor = (tag: string) => {
@@ -43,6 +44,7 @@ const WishItemCard = ({
   wishItem,
   onDelete,
   onCheck,
+  listType,
 }: WishItemCardProps): JSX.Element => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: wishItem.id });
@@ -87,7 +89,7 @@ const WishItemCard = ({
         <IconButton
           onClick={(e) => {
             e.stopPropagation();
-            onDelete(wishItem);
+            onDelete(wishItem, listType);
           }}
         >
           <DeleteIcon />
@@ -100,7 +102,7 @@ const WishItemCard = ({
 type WishListProps = {
   isMobile: boolean;
   wishList: Array<WishItem>;
-  onDelete: (wishItem: WishItem) => void;
+  onDelete: (wishItem: WishItem, listType: 'wishList' | 'refrigeratorList') => void;
   onCheck: (wishItem: WishItem) => void;
   onDragEnd: (WishList: Array<WishItem>) => void;
 };
@@ -162,8 +164,9 @@ const WishList = ({
             <WishItemCard
               key={wishItem.id}
               wishItem={wishItem}
-              onDelete={onDelete}
+              onDelete={(item) => onDelete(item, 'wishList')}
               onCheck={onCheck}
+              listType={'wishList'}
             />
           ))}
         </SortableContext>
