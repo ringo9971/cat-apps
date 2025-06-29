@@ -4,9 +4,32 @@ import {
   Firestore,
   getDoc,
   setDoc,
+  Timestamp,
 } from 'firebase/firestore';
 import { WithId } from 'types/WithId';
 import { v4 as uuidv4 } from 'uuid';
+
+const convertTimestampsToDates = (data: any): any => {
+  if (data === null || typeof data !== 'object') {
+    return data;
+  }
+
+  if (data instanceof Timestamp) {
+    return data.toDate();
+  }
+
+  if (Array.isArray(data)) {
+    return data.map((item) => convertTimestampsToDates(item));
+  }
+
+  const convertedData: { [key: string]: any } = {};
+  for (const key in data) {
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
+      convertedData[key] = convertTimestampsToDates(data[key]);
+    }
+  }
+  return convertedData;
+};
 
 export class ApiClient {
   constructor(private firestore: Firestore) {}
@@ -14,12 +37,12 @@ export class ApiClient {
   async get<T>(collection: string, path: string): Promise<T | null> {
     const docSnap = await getDoc(doc(this.firestore, collection, path));
     if (docSnap.data() == null) return null;
-    return docSnap.data() as T;
+    return convertTimestampsToDates(docSnap.data()) as T;
   }
 
   async getList<T>(collection: string, path: string): Promise<T> {
     const docSnap = await getDoc(doc(this.firestore, collection, path));
-    const data = (docSnap.data()?.list as T) ?? ([] as T);
+    const data = convertTimestampsToDates(docSnap.data()?.list) ?? ([] as T);
     return data;
   }
 
