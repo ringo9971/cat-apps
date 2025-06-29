@@ -5,9 +5,19 @@ import { WishItem } from 'types/market/WishItem';
 
 type RefrigeratorItemCardProps = {
   wishItem: WishItem;
-  onDelete: (wishItem: WishItem, listType: 'wishList' | 'refrigeratorList') => void;
+  onDelete: (
+    wishItem: WishItem,
+    listType: 'wishList' | 'refrigeratorList'
+  ) => void;
   onMoveToWishList: (wishItem: WishItem) => void;
   listType: 'wishList' | 'refrigeratorList';
+};
+
+const getDaysAgo = (date: Date): number => {
+  const today = new Date();
+  const diffTime = Math.abs(today.getTime() - date.getTime());
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
 };
 
 const RefrigeratorItemCard = ({
@@ -50,7 +60,12 @@ const RefrigeratorItemCard = ({
             backgroundColor: getTagColor(wishItem.tag),
           }}
         />
-        <CardContent>{wishItem.name}</CardContent>
+        <CardContent>
+          {wishItem.name}{' '}
+          {wishItem.tag === '食品' &&
+            wishItem.time &&
+            `(${getDaysAgo(wishItem.time)}日前)`}
+        </CardContent>
       </Box>
       <Box display="flex" justifyContent="flex-end" sx={{ flexGrow: 1 }}>
         <IconButton
@@ -76,7 +91,10 @@ const RefrigeratorItemCard = ({
 
 type RefrigeratorListProps = {
   refrigeratorList: Array<WishItem>;
-  onDelete: (wishItem: WishItem, listType: 'wishList' | 'refrigeratorList') => void;
+  onDelete: (
+    wishItem: WishItem,
+    listType: 'wishList' | 'refrigeratorList'
+  ) => void;
   onMoveToWishList: (wishItem: WishItem) => void;
 };
 
