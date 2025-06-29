@@ -113,25 +113,39 @@ const useWishItemsOperation = (): UseWishItemsOperationState => {
       check: !wishItem.check,
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { time, ...toggledDataForApi } = toggledData;
+
     if (wishItem.tag === '食品') {
       if (toggledData.check) {
         // wishList から refrigeratorList へ移動
         setWishList((list) => list.filter((w) => w.id !== toggledData.id));
-        setRefrigeratorList((list) => [...list, toggledData]);
         await apiClient.deleteListItem('market', 'wishList', toggledData);
-        await apiClient.addListItem('market', 'refrigeratorList', toggledData);
+        const newItem = await apiClient.addListItem(
+          'market',
+          'refrigeratorList',
+          toggledDataForApi
+        );
+        setRefrigeratorList((list) => [...list, newItem]);
+        return newItem;
       } else {
         // refrigeratorList から wishList へ移動
         setRefrigeratorList((list) =>
           list.filter((w) => w.id !== toggledData.id)
         );
-        setWishList((list) => [toggledData, ...list]);
         await apiClient.deleteListItem(
           'market',
           'refrigeratorList',
           toggledData
         );
-        await apiClient.addListItem('market', 'wishList', toggledData, true);
+        const newItem = await apiClient.addListItem(
+          'market',
+          'wishList',
+          toggledDataForApi,
+          true
+        );
+        setWishList((list) => [newItem, ...list]);
+        return newItem;
       }
     } else {
       // 食品以外はタブ間の移動はなし
@@ -140,8 +154,8 @@ const useWishItemsOperation = (): UseWishItemsOperationState => {
       await apiClient.update<{ list: Array<WishItem> }>('market', 'wishList', {
         list: newList,
       });
+      return toggledData;
     }
-    return toggledData;
   };
 
   const moveWishItem = (
