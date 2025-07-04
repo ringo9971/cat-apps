@@ -1,13 +1,16 @@
-import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson';
+import React, { useRef, useEffect, useState } from 'react';
 
 interface JapanMapD3Props {
   onSelect: (prefecture: string) => void;
   highlightColors: { [key: string]: string };
 }
 
-export const JapanMapD3: React.FC<JapanMapD3Props> = ({ onSelect, highlightColors }) => {
+export const JapanMapD3: React.FC<JapanMapD3Props> = ({
+  onSelect,
+  highlightColors,
+}) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -16,7 +19,7 @@ export const JapanMapD3: React.FC<JapanMapD3Props> = ({ onSelect, highlightColor
     if (containerRef.current) {
       const updateDimensions = () => {
         const newWidth = containerRef.current?.offsetWidth || 0;
-        const newHeight = newWidth * (600 / 600); 
+        const newHeight = newWidth * (600 / 600);
         setDimensions({ width: newWidth, height: newHeight });
       };
 
@@ -32,15 +35,14 @@ export const JapanMapD3: React.FC<JapanMapD3Props> = ({ onSelect, highlightColor
   useEffect(() => {
     if (dimensions.width === 0 || dimensions.height === 0) return;
 
-    const svg = d3.select(svgRef.current as SVGSVGElement); 
+    const svg = d3.select(svgRef.current as SVGSVGElement);
 
-    // 既存の要素をすべてクリア
-    svg.selectAll('*').remove(); 
+    svg.selectAll('*').remove();
 
-    // 地図のパスを追加するグループ要素を作成
-    const g = svg.append('g'); 
+    const g = svg.append('g');
 
-    const projection = d3.geoMercator()
+    const projection = d3
+      .geoMercator()
       .center([137.0, 38.0])
       .scale(dimensions.width * 2.5)
       .translate([dimensions.width / 2, dimensions.height / 2]);
@@ -57,26 +59,33 @@ export const JapanMapD3: React.FC<JapanMapD3Props> = ({ onSelect, highlightColor
         .enter()
         .append('path')
         .attr('d', path as any)
-        .attr('fill', (d: any) => highlightColors[d.properties.name_ja] || '#ccc')
+        .attr(
+          'fill',
+          (d: any) => highlightColors[d.properties.name_ja] || '#ccc'
+        )
         .attr('stroke', '#fff')
-        .on('click', (event, d: any) => {
+        .on('click', (_e, d: any) => {
           onSelect(d.properties.name_ja);
         });
     });
 
-    const zoom = d3.zoom<SVGSVGElement, unknown>()
-      .scaleExtent([1, 8]) 
+    const zoom = d3
+      .zoom<SVGSVGElement, unknown>()
+      .scaleExtent([1, 8])
       .on('zoom', (event) => {
         g.attr('transform', event.transform.toString());
       });
 
     svg.call(zoom);
-
   }, [dimensions, highlightColors, onSelect]);
 
   return (
     <div ref={containerRef} style={{ width: '100%', height: 'auto' }}>
-      <svg ref={svgRef} width={dimensions.width} height={dimensions.height}></svg>
+      <svg
+        ref={svgRef}
+        width={dimensions.width}
+        height={dimensions.height}
+      ></svg>
     </div>
   );
 };
