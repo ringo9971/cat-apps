@@ -10,6 +10,7 @@ export const MainPage = () => {
       <Grid container spacing={2}>
         <SelectAppCard item="お天気" to="/weather" />
         <SelectAppCard item="お買い物" to="/market" disabled={user == null} />
+        <SelectAppCard item="都道府県当てクイズ" to="/prefecture-quiz" />
       </Grid>
     </Box>
   );
