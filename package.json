@@ -8,7 +8,8 @@
     "start": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "fix": "eslint . --fix"
+    "fix": "eslint . --fix",
+    "tool:move-checked-food": "ts-node -P tools/tsconfig.tool.json tools/moveCheckedFoodToRefrigerator.ts"
   },
   "dependencies": {
     "@dnd-kit/accessibility": "^3.1.1",
@@ -19,7 +20,9 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.0.2",
     "@mui/material": "^6.0.2",
+    "@react-map/japan": "^1.0.10",
     "firebase": "^10.13.1",
+    "firebase-admin": "^13.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",
@@ -32,6 +35,7 @@
     "@types/react-dom": "^18.3.0",
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "dotenv": "^17.0.0",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.35.0",
@@ -39,6 +43,8 @@
     "eslint-plugin-react-refresh": "^0.4.11",
     "globals": "^15.9.0",
     "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1",
