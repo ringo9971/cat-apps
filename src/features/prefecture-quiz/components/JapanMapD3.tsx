@@ -6,12 +6,14 @@ interface JapanMapD3Props {
   onSelect: (prefecture: string) => void;
   highlightColors: { [key: string]: string };
   hintRegionPrefectures: string[];
+  selectedPrefectures: string[];
 }
 
 export const JapanMapD3: React.FC<JapanMapD3Props> = ({
   onSelect,
   highlightColors,
   hintRegionPrefectures,
+  selectedPrefectures,
 }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -46,7 +48,7 @@ export const JapanMapD3: React.FC<JapanMapD3Props> = ({
     const projection = d3
       .geoMercator()
       .center([137.0, 38.0])
-      .scale(dimensions.width * 2.5)
+      .scale(dimensions.width * 2.8)
       .translate([dimensions.width / 2, dimensions.height / 2]);
 
     const path = d3.geoPath().projection(projection) as any;
@@ -68,7 +70,8 @@ export const JapanMapD3: React.FC<JapanMapD3Props> = ({
           }
           if (
             prefectureName &&
-            hintRegionPrefectures.includes(prefectureName)
+            (hintRegionPrefectures.includes(prefectureName) ||
+              selectedPrefectures.includes(prefectureName))
           ) {
             return 'rgba(255, 0, 0, 0.3)';
           }
