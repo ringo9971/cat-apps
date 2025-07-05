@@ -1,12 +1,11 @@
 import * as admin from 'firebase-admin';
 
+import serviceAccount from '../.secret/dev-cat-apps-firebase-adminsdk.json';
 import { WishItem } from '../src/types/market/WishItem';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const serviceAccount = require('../.secret/dev-cat-apps-firebase-adminsdk.json');
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
 });
 
 const db = admin.firestore();

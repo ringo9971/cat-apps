@@ -47,9 +47,9 @@ export const JapanMapD3: React.FC<JapanMapD3Props> = ({
       .scale(dimensions.width * 2.5)
       .translate([dimensions.width / 2, dimensions.height / 2]);
 
-    const path = d3.geoPath().projection(projection);
+    const path = d3.geoPath().projection(projection) as d3.GeoPath<any, GeoJsonProperties>;
 
-    d3.json('/japan.json').then((data: unknown) => {
+    d3.json('/japan.json').then((data: FeatureCollection<Geometry, GeoJsonProperties>) => {
       const geojson = data as FeatureCollection<Geometry, GeoJsonProperties>;
       const prefectures = geojson.features;
 
@@ -58,13 +58,14 @@ export const JapanMapD3: React.FC<JapanMapD3Props> = ({
         .data(prefectures)
         .enter()
         .append('path')
-        .attr('d', path as any)
+        .attr('d', path as d3.GeoPath<any, GeoJsonProperties>)
         .attr(
           'fill',
-          (d: any) => highlightColors[d.properties.name_ja] || '#ccc'
+          (d: { properties: { name_ja: string } }) =>
+            highlightColors[d.properties.name_ja] || '#ccc'
         )
         .attr('stroke', '#fff')
-        .on('click', (_e, d: any) => {
+        .on('click', (_e, d: { properties: { name_ja: string } }) => {
           onSelect(d.properties.name_ja);
         });
     });
