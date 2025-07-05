@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { PrefectureQuiz } from '../components/PrefectureQuiz';
 import { RhombusPrefectureMap } from '../components/RhombusPrefectureMap';
+import { MunicipalityLearning } from '../components/MunicipalityLearning';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -21,11 +22,7 @@ function CustomTabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -54,6 +51,7 @@ export const PrefectureQuizPage = () => {
         >
           <Tab label="クイズ" {...a11yProps(0)} />
           <Tab label="データマップ" {...a11yProps(1)} />
+          <Tab label="市区町村" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -61,6 +59,9 @@ export const PrefectureQuizPage = () => {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <RhombusPrefectureMap />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <MunicipalityLearning />
       </CustomTabPanel>
     </Box>
   );
