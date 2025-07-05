@@ -5,11 +5,13 @@ import React, { useRef, useEffect, useState } from 'react';
 interface JapanMapD3Props {
   onSelect: (prefecture: string) => void;
   highlightColors: { [key: string]: string };
+  hintRegionPrefectures: string[];
 }
 
 export const JapanMapD3: React.FC<JapanMapD3Props> = ({
   onSelect,
   highlightColors,
+  hintRegionPrefectures,
 }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -47,9 +49,9 @@ export const JapanMapD3: React.FC<JapanMapD3Props> = ({
       .scale(dimensions.width * 2.5)
       .translate([dimensions.width / 2, dimensions.height / 2]);
 
-    const path = d3.geoPath().projection(projection) as d3.GeoPath<any, GeoJsonProperties>;
+    const path = d3.geoPath().projection(projection) as any;
 
-    d3.json('/japan.json').then((data: FeatureCollection<Geometry, GeoJsonProperties>) => {
+    d3.json('/japan.json').then((data: any) => {
       const geojson = data as FeatureCollection<Geometry, GeoJsonProperties>;
       const prefectures = geojson.features;
 
@@ -58,15 +60,26 @@ export const JapanMapD3: React.FC<JapanMapD3Props> = ({
         .data(prefectures)
         .enter()
         .append('path')
-        .attr('d', path as d3.GeoPath<any, GeoJsonProperties>)
-        .attr(
-          'fill',
-          (d: { properties: { name_ja: string } }) =>
-            highlightColors[d.properties.name_ja] || '#ccc'
-        )
+        .attr('d', path as any)
+        .attr('fill', (d: { properties: GeoJsonProperties }) => {
+          const prefectureName = d.properties?.name_ja as string;
+          if (prefectureName && highlightColors[prefectureName]) {
+            return highlightColors[prefectureName];
+          }
+          if (
+            prefectureName &&
+            hintRegionPrefectures.includes(prefectureName)
+          ) {
+            return 'rgba(255, 0, 0, 0.3)';
+          }
+          return '#ccc';
+        })
         .attr('stroke', '#fff')
-        .on('click', (_e, d: { properties: { name_ja: string } }) => {
-          onSelect(d.properties.name_ja);
+        .on('click', (_e, d: { properties: GeoJsonProperties }) => {
+          const prefectureName = d.properties?.name_ja as string;
+          if (prefectureName) {
+            onSelect(prefectureName);
+          }
         });
     });
 
