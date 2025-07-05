@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   CircularProgress,
-  Container,
   Typography,
   FormControlLabel,
   Switch,
