@@ -26,14 +26,23 @@ export const PrefectureQuiz = () => {
           市区町村: {currentQuestion.name}
         </Typography>
         <Typography variant="h6">スコア: {score}</Typography>
-        <Button variant="outlined" onClick={getHint} sx={{ mt: 2 }} disabled={answered}> {/* 常に表示し、answeredの場合は無効化 */}
-          ヒントを見る
-        </Button>
+        <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Button variant="outlined" onClick={getHint} disabled={answered}>
+            {/* 常に表示し、answeredの場合は無効化 */}
+            ヒントを見る
+          </Button>
+          {answered && (
+            <Button variant="contained" onClick={handleNextQuestion}>
+              次の問題へ
+            </Button>
+          )}
+        </Box>
         {hint && (
           <Typography variant="body1" sx={{ mt: 1 }}>
             地域: {hint}
           </Typography>
         )}
+        {answered && <Typography sx={{ mt: 2 }}>正解は {currentQuestion.prefecture} です。</Typography>}
         <Box sx={{ mt: 2 }}>
           <JapanMapD3
             onSelect={(prefecture: string) => {
@@ -44,14 +53,6 @@ export const PrefectureQuiz = () => {
             highlightColors={highlightColors}
           />
         </Box>
-        {answered && (
-          <Box sx={{ mt: 2 }}>
-            <Typography>正解は {currentQuestion.prefecture} です。</Typography>
-            <Button variant="contained" onClick={handleNextQuestion} sx={{ mt: 2 }}>
-              次の問題へ
-            </Button>
-          </Box>
-        )}
       </Box>
     </Container>
   );
