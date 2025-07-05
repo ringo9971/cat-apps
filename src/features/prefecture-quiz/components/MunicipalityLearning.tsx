@@ -220,6 +220,7 @@ export const MunicipalityLearning = () => {
                       prefectureName={prefecture}
                       municipalities={towns}
                       selectedMunicipality={selectedMunicipalityForMap}
+                      onMunicipalityClick={handleMunicipalityClick}
                     />
                   </Box>
                 )}

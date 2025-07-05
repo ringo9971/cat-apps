@@ -7,12 +7,14 @@ interface PrefectureDetailMapProps {
   prefectureName: string;
   municipalities: Municipality[];
   selectedMunicipality: Municipality | null;
+  onMunicipalityClick?: (municipality: Municipality) => void;
 }
 
 export const PrefectureDetailMap: React.FC<PrefectureDetailMapProps> = ({
   prefectureName,
   municipalities,
   selectedMunicipality,
+  onMunicipalityClick,
 }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -116,6 +118,11 @@ export const PrefectureDetailMap: React.FC<PrefectureDetailMapProps> = ({
       )
       .attr('stroke', 'white')
       .attr('stroke-width', 0.5)
+      .on('click', (_, d) => {
+        if (onMunicipalityClick) {
+          onMunicipalityClick(d);
+        }
+      })
       .append('title') // Tooltip for municipality name
       .text((d) => d.name);
 
