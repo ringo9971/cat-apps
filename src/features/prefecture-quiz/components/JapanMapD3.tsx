@@ -2,11 +2,14 @@ import * as d3 from 'd3';
 import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson';
 import React, { useRef, useEffect, useState } from 'react';
 
+import { Municipality } from 'types/prefecture-quiz/Municipality';
+
 interface JapanMapD3Props {
   onSelect: (prefecture: string) => void;
   highlightColors: { [key: string]: string };
   hintRegionPrefectures: string[];
   selectedPrefectures: string[];
+  selectedMunicipality?: Municipality | null;
 }
 
 export const JapanMapD3: React.FC<JapanMapD3Props> = ({
@@ -14,6 +17,7 @@ export const JapanMapD3: React.FC<JapanMapD3Props> = ({
   highlightColors,
   hintRegionPrefectures,
   selectedPrefectures,
+  selectedMunicipality,
 }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -84,6 +88,28 @@ export const JapanMapD3: React.FC<JapanMapD3Props> = ({
             onSelect(prefectureName);
           }
         });
+
+      if (
+        selectedMunicipality &&
+        selectedMunicipality.latitude &&
+        selectedMunicipality.longitude
+      ) {
+        const coords: [number, number] = [
+          selectedMunicipality.longitude,
+          selectedMunicipality.latitude,
+        ];
+        const projectedCoords = projection(coords);
+
+        if (projectedCoords) {
+          g.append('circle')
+            .attr('cx', projectedCoords[0])
+            .attr('cy', projectedCoords[1])
+            .attr('r', 2)
+            .attr('fill', 'green')
+            .attr('stroke', 'white')
+            .attr('stroke-width', 1);
+        }
+      }
     });
 
     const zoom = d3
@@ -94,7 +120,7 @@ export const JapanMapD3: React.FC<JapanMapD3Props> = ({
       });
 
     svg.call(zoom);
-  }, [dimensions, highlightColors, onSelect]);
+  }, [dimensions, highlightColors, onSelect, selectedMunicipality]);
 
   return (
     <div ref={containerRef} style={{ width: '100%', height: 'auto' }}>

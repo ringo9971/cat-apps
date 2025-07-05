@@ -78,6 +78,7 @@ export const PrefectureQuiz = () => {
           highlightColors={highlightColors}
           hintRegionPrefectures={hintRegionPrefectures}
           selectedPrefectures={[]}
+          selectedMunicipality={answered ? currentQuestion : null}
         />
       </Box>
       {answered && (
