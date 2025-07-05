@@ -1,35 +1,42 @@
-import {
-  Box,
-  CircularProgress,
-  FormControlLabel,
-  Switch,
-  Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  TextField,
-} from '@mui/material';
+import { Box, FormControlLabel, Switch, Typography, Accordion, AccordionSummary, AccordionDetails, TextField, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useEffect, useState, useMemo } from 'react';
 import { Municipality } from 'types/prefecture-quiz/Municipality';
+import { PrefectureDetailMap } from './PrefectureDetailMap';
 
 export const MunicipalityLearning = () => {
   const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
   const [cityOnlyMode, setCityOnlyMode] = useState(false);
-  const [expanded, setExpanded] = useState<string[]>([]); // Changed to array
-  const [searchTerm, setSearchTerm] = useState(''); // New state for search term
+  const [expanded, setExpanded] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedMunicipalityForMap, setSelectedMunicipalityForMap] = useState<Municipality | null>(null);
 
   useEffect(() => {
-    fetch('/municipalities.json')
+    fetch('/geolonia_municipalities.json')
       .then((res) => res.json())
-      .then((data) => {
-        let formattedData: Municipality[] = Object.entries(data).map(
-          ([name, prefecture]) => ({
-            name,
-            prefecture: prefecture as string,
-          })
-        );
+      .then((json) => {
+        const formattedData: Municipality[] = [];
+        // GeoloniaのJSON構造に合わせてデータをパース
+        json.data.forEach((prefData: any) => {
+          const prefectureName = prefData.pref;
+          const cities = prefData.cities || [prefData];
 
+          cities.forEach((cityData: any) => {
+            // 政令指定都市の区を考慮
+            const cityName = cityData.ward
+              ? `${cityData.city}${cityData.ward}`
+              : cityData.city;
+            if (cityData.point && cityData.point.length === 2) {
+              formattedData.push({
+                name: cityName,
+                prefecture: prefectureName,
+                latitude: cityData.point[1],
+                longitude: cityData.point[0],
+                code: cityData.code
+              });
+            }
+          });
+        });
         setMunicipalities(formattedData);
       });
   }, []);
@@ -87,12 +94,10 @@ export const MunicipalityLearning = () => {
   const filteredAndGroupedMunicipalities = useMemo(() => {
     const groups: { [key: string]: Municipality[] } = {};
     municipalities.forEach((m) => {
-      // Filter by cityOnlyMode
       if (cityOnlyMode && !m.name.endsWith('市')) {
         return;
       }
 
-      // Filter by search term
       if (
         searchTerm &&
         !m.name.includes(searchTerm) &&
@@ -107,7 +112,6 @@ export const MunicipalityLearning = () => {
       groups[m.prefecture].push(m);
     });
 
-    // Sort prefectures by PREFECTURE_ORDER and municipalities by name
     return PREFECTURE_ORDER.filter((pref) => groups[pref]).reduce(
       (obj, key) => {
         obj[key] = groups[key].sort((a, b) => a.name.localeCompare(b.name));
@@ -115,9 +119,8 @@ export const MunicipalityLearning = () => {
       },
       {} as { [key: string]: Municipality[] }
     );
-  }, [municipalities, cityOnlyMode, searchTerm]); // Add searchTerm to dependencies
+  }, [municipalities, cityOnlyMode, searchTerm]);
 
-  // Auto-expand accordions that contain search results
   useEffect(() => {
     if (searchTerm) {
       const newExpanded: string[] = [];
@@ -136,7 +139,7 @@ export const MunicipalityLearning = () => {
       );
       setExpanded(newExpanded);
     } else {
-      setExpanded([]); // Collapse all when search term is empty
+      setExpanded([]);
     }
   }, [searchTerm, filteredAndGroupedMunicipalities]);
 
@@ -144,16 +147,18 @@ export const MunicipalityLearning = () => {
     (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded((prevExpanded) => {
         if (isExpanded) {
+          setSelectedMunicipalityForMap(null); // 新しい都道府県が選択されたので、市区町村の選択をクリア
           return [...prevExpanded, panel];
         } else {
+          setSelectedMunicipalityForMap(null);
           return prevExpanded.filter((p) => p !== panel);
         }
       });
     };
 
-  if (municipalities.length === 0) {
-    return <CircularProgress />;
-  }
+  const handleMunicipalityClick = (municipality: Municipality) => {
+    setSelectedMunicipalityForMap(municipality);
+  };
 
   return (
     <Box>
@@ -195,15 +200,29 @@ export const MunicipalityLearning = () => {
               <AccordionDetails>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {towns.map((town) => (
-                    <Typography
-                      key={town.name}
-                      variant="body2"
+                    <Button
+                      key={town.code}
+                      variant={selectedMunicipalityForMap && town.code === selectedMunicipalityForMap.code ? "contained" : "outlined"}
+                      size="small"
+                      onClick={() => handleMunicipalityClick(town)}
                       sx={{ border: '1px solid #eee', p: 0.5, borderRadius: 1 }}
                     >
                       {town.name}
-                    </Typography>
+                    </Button>
                   ))}
                 </Box>
+                {expanded.includes(prefecture) && (
+                  <Box sx={{ mt: 4 }}>
+                    <Typography variant="h6" gutterBottom>
+                      {prefecture}の地図
+                    </Typography>
+                    <PrefectureDetailMap
+                      prefectureName={prefecture}
+                      municipalities={towns}
+                      selectedMunicipality={selectedMunicipalityForMap}
+                    />
+                  </Box>
+                )}
               </AccordionDetails>
             </Accordion>
           )

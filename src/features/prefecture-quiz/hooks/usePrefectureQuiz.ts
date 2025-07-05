@@ -71,15 +71,29 @@ export const usePrefectureQuiz = (cityOnly: boolean = false) => {
   const [hintUsed, setHintUsed] = useState(false);
 
   useEffect(() => {
-    fetch('/municipalities.json')
+    fetch('/geolonia_municipalities.json')
       .then((res) => res.json())
-      .then((data) => {
-        let formattedData: Municipality[] = Object.entries(data).map(
-          ([name, prefecture]) => ({
-            name,
-            prefecture: prefecture as string,
-          })
-        );
+      .then((json) => {
+        let formattedData: Municipality[] = [];
+        json.data.forEach((prefData: any) => {
+          const prefectureName = prefData.pref;
+          const cities = prefData.cities || [prefData];
+
+          cities.forEach((cityData: any) => {
+            const cityName = cityData.ward
+              ? `${cityData.city}${cityData.ward}`
+              : cityData.city;
+            if (cityData.point && cityData.point.length === 2) {
+              formattedData.push({
+                name: cityName,
+                prefecture: prefectureName,
+                latitude: cityData.point[1],
+                longitude: cityData.point[0],
+                code: cityData.code,
+              });
+            }
+          });
+        });
 
         if (cityOnly) {
           formattedData = formattedData.filter((m) => m.name.endsWith('市'));
