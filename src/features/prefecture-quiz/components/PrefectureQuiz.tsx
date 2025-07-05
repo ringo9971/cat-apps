@@ -42,7 +42,6 @@ export const PrefectureQuiz = () => {
             地域: {hint}
           </Typography>
         )}
-        {answered && <Typography sx={{ mt: 2 }}>正解は {currentQuestion.prefecture} です。</Typography>}
         <Box sx={{ mt: 2 }}>
           <JapanMapD3
             onSelect={(prefecture: string) => {
@@ -53,6 +52,7 @@ export const PrefectureQuiz = () => {
             highlightColors={highlightColors}
           />
         </Box>
+        {answered && <Typography sx={{ mt: 2 }}>正解は {currentQuestion.prefecture} です。</Typography>}
       </Box>
     </Container>
   );
