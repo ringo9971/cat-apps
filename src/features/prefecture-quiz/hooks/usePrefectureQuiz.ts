@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Municipality } from 'types/prefecture-quiz/Municipality';
 
@@ -62,14 +62,33 @@ export const usePrefectureQuiz = (cityOnly: boolean = false) => {
   const [selectedPrefecture, setSelectedPrefecture] = useState<string | null>(
     null
   );
-  const [highlightColors, setHighlightColors] = useState<{
-    [key: string]: string;
-  }>({});
   const [hint, setHint] = useState<string | null>(null);
   const [hintRegionPrefectures, setHintRegionPrefectures] = useState<string[]>(
     []
   );
   const [hintUsed, setHintUsed] = useState(false);
+
+  const highlightColors = useMemo(() => {
+    const newHighlightColors: { [key: string]: string } = {};
+
+    if (answered) {
+      const correctPrefectureJapanese = currentQuestion?.prefecture || '';
+
+      if (selectedPrefecture === correctPrefectureJapanese) {
+        if (correctPrefectureJapanese) {
+          newHighlightColors[correctPrefectureJapanese] = 'yellow';
+        }
+      } else {
+        if (selectedPrefecture) {
+          newHighlightColors[selectedPrefecture] = 'blue';
+        }
+        if (correctPrefectureJapanese) {
+          newHighlightColors[correctPrefectureJapanese] = 'red';
+        }
+      }
+    }
+    return newHighlightColors;
+  }, [answered, selectedPrefecture, currentQuestion]);
 
   useEffect(() => {
     fetch('/geolonia_municipalities.json')
@@ -106,28 +125,6 @@ export const usePrefectureQuiz = (cityOnly: boolean = false) => {
         );
       });
   }, [cityOnly]);
-
-  useEffect(() => {
-    const newHighlightColors: { [key: string]: string } = {};
-
-    if (answered) {
-      const correctPrefectureJapanese = currentQuestion?.prefecture || '';
-
-      if (selectedPrefecture === correctPrefectureJapanese) {
-        if (correctPrefectureJapanese) {
-          newHighlightColors[correctPrefectureJapanese] = 'yellow';
-        }
-      } else {
-        if (selectedPrefecture) {
-          newHighlightColors[selectedPrefecture] = 'blue';
-        }
-        if (correctPrefectureJapanese) {
-          newHighlightColors[correctPrefectureJapanese] = 'red';
-        }
-      }
-    }
-    setHighlightColors(newHighlightColors);
-  }, [answered, selectedPrefecture, currentQuestion]);
 
   const handleAnswer = (prefecture: string) => {
     if (!currentQuestion) return;

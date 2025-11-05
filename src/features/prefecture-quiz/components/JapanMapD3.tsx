@@ -120,7 +120,14 @@ export const JapanMapD3: React.FC<JapanMapD3Props> = ({
       });
 
     svg.call(zoom);
-  }, [dimensions, highlightColors, onSelect, selectedMunicipality]);
+  }, [
+    dimensions,
+    highlightColors,
+    hintRegionPrefectures,
+    onSelect,
+    selectedMunicipality,
+    selectedPrefectures,
+  ]);
 
   return (
     <div ref={containerRef} style={{ width: '100%', height: 'auto' }}>

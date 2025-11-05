@@ -1,6 +1,6 @@
 import routes from './Routes';
 import TopBar from './TopBar';
-import { ApiClientProvider } from 'lib/ApiClientContext';
+import { ApiClientProvider } from 'lib/ApiClientProvider';
 import { useRoutes } from 'react-router-dom';
 
 function App() {

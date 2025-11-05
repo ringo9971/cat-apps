@@ -15,6 +15,56 @@ import {
 } from '@mui/material';
 import { Municipality } from 'types/prefecture-quiz/Municipality';
 
+const PREFECTURE_ORDER = [
+  '北海道',
+  '青森県',
+  '岩手県',
+  '宮城県',
+  '秋田県',
+  '山形県',
+  '福島県',
+  '茨城県',
+  '栃木県',
+  '群馬県',
+  '埼玉県',
+  '千葉県',
+  '東京都',
+  '神奈川県',
+  '新潟県',
+  '富山県',
+  '石川県',
+  '福井県',
+  '山梨県',
+  '長野県',
+  '岐阜県',
+  '静岡県',
+  '愛知県',
+  '三重県',
+  '滋賀県',
+  '京都府',
+  '大阪府',
+  '兵庫県',
+  '奈良県',
+  '和歌山県',
+  '鳥取県',
+  '島根県',
+  '岡山県',
+  '広島県',
+  '山口県',
+  '徳島県',
+  '香川県',
+  '愛媛県',
+  '高知県',
+  '福岡県',
+  '佐賀県',
+  '長崎県',
+  '熊本県',
+  '大分県',
+  '宮崎県',
+  '鹿児島県',
+  '沖縄県',
+];
+
 export const MunicipalityLearning = () => {
   const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
   const [cityOnlyMode, setCityOnlyMode] = useState(false);
@@ -53,56 +103,6 @@ export const MunicipalityLearning = () => {
       });
   }, []);
 
-  const PREFECTURE_ORDER = [
-    '北海道',
-    '青森県',
-    '岩手県',
-    '宮城県',
-    '秋田県',
-    '山形県',
-    '福島県',
-    '茨城県',
-    '栃木県',
-    '群馬県',
-    '埼玉県',
-    '千葉県',
-    '東京都',
-    '神奈川県',
-    '新潟県',
-    '富山県',
-    '石川県',
-    '福井県',
-    '山梨県',
-    '長野県',
-    '岐阜県',
-    '静岡県',
-    '愛知県',
-    '三重県',
-    '滋賀県',
-    '京都府',
-    '大阪府',
-    '兵庫県',
-    '奈良県',
-    '和歌山県',
-    '鳥取県',
-    '島根県',
-    '岡山県',
-    '広島県',
-    '山口県',
-    '徳島県',
-    '香川県',
-    '愛媛県',
-    '高知県',
-    '福岡県',
-    '佐賀県',
-    '長崎県',
-    '熊本県',
-    '大分県',
-    '宮崎県',
-    '鹿児島県',
-    '沖縄県',
-  ];
-
   const filteredAndGroupedMunicipalities = useMemo(() => {
     const groups: { [key: string]: Municipality[] } = {};
     municipalities.forEach((m) => {
@@ -133,27 +133,24 @@ export const MunicipalityLearning = () => {
     );
   }, [municipalities, cityOnlyMode, searchTerm]);
 
-  useEffect(() => {
-    if (searchTerm) {
-      const newExpanded: string[] = [];
-      Object.entries(filteredAndGroupedMunicipalities).forEach(
-        ([prefecture, towns]) => {
-          if (
-            towns.some(
-              (town) =>
-                town.name.includes(searchTerm) ||
-                town.prefecture.includes(searchTerm)
-            )
-          ) {
-            newExpanded.push(prefecture);
-          }
-        }
-      );
-      setExpanded(newExpanded);
-    } else {
-      setExpanded([]);
+  const expandedPrefectures = useMemo(() => {
+    if (!searchTerm) {
+      return [];
     }
+    return Object.entries(filteredAndGroupedMunicipalities)
+      .filter(([, towns]) =>
+        towns.some(
+          (town) =>
+            town.name.includes(searchTerm) ||
+            town.prefecture.includes(searchTerm)
+        )
+      )
+      .map(([prefecture, _]) => prefecture);
   }, [searchTerm, filteredAndGroupedMunicipalities]);
+
+  useEffect(() => {
+    setExpanded(expandedPrefectures);
+  }, [expandedPrefectures]);
 
   const handleChange =
     (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {

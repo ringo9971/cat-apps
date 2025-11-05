@@ -150,7 +150,13 @@ export const PrefectureDetailMap: React.FC<PrefectureDetailMapProps> = ({
       });
 
     svg.call(zoom);
-  }, [dimensions, prefectureGeoJson, municipalities, selectedMunicipality]);
+  }, [
+    dimensions,
+    prefectureGeoJson,
+    municipalities,
+    selectedMunicipality,
+    onMunicipalityClick,
+  ]);
 
   return (
     <div ref={containerRef} style={{ width: '100%', height: 'auto' }}>

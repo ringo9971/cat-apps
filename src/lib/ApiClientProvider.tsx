@@ -1,9 +1,8 @@
-import { ReactNode, createContext } from 'react';
+import { ReactNode } from 'react';
 
-import { ApiClient } from 'api/ApiClient';
-import useFirebase from 'hooks/firebase/useFirebase';
-
-export const ApiClientContext = createContext<ApiClient | null>(null);
+import { ApiClientContext } from './ApiClientContext.ts';
+import { ApiClient } from '@/api/ApiClient.ts';
+import useFirebase from '@/hooks/firebase/useFirebase.ts';
 
 export const ApiClientProvider = ({ children }: { children: ReactNode }) => {
   const { firestore } = useFirebase();
