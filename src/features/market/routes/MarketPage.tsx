@@ -1,14 +1,14 @@
+import { useRef, useState } from 'react';
+
 import { Box, Tab, Tabs } from '@mui/material';
 import FoodMenuContainer from 'features/market/containers/FoodMenu';
 import RefrigeratorContainer from 'features/market/containers/RefrigeratorContainer';
 import ToDoListContainer from 'features/market/containers/ToDoList';
 import WishListContainer from 'features/market/containers/WishList';
 import useWishItemsOperation from 'hooks/market/useWishItemsOperation';
-import { useRef, useState } from 'react';
 import SwiperCore from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-
 import 'swiper/css';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 export const MarketPage = (): JSX.Element => {
   const [tabpage, setTabpage] = useState(0);

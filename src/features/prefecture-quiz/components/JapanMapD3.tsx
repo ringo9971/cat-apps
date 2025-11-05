@@ -1,7 +1,7 @@
+import React, { useEffect, useRef, useState } from 'react';
+
 import * as d3 from 'd3';
 import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson';
-import React, { useRef, useEffect, useState } from 'react';
-
 import { Municipality } from 'types/prefecture-quiz/Municipality';
 
 interface JapanMapD3Props {

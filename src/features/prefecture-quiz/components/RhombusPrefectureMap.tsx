@@ -1,8 +1,8 @@
-import { Box, CircularProgress, Typography, Button } from '@mui/material';
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
-import { JapanMapD3 } from './JapanMapD3';
 import { useRhombusPrefectures } from '../hooks/useRhombusPrefectures';
+import { JapanMapD3 } from './JapanMapD3';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
 
 interface RhombusPrefectureData {
   image_number: number;

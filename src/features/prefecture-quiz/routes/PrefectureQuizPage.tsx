@@ -1,9 +1,9 @@
-import { Box, Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
 
+import { MunicipalityLearning } from '../components/MunicipalityLearning';
 import { PrefectureQuiz } from '../components/PrefectureQuiz';
 import { RhombusPrefectureMap } from '../components/RhombusPrefectureMap';
-import { MunicipalityLearning } from '../components/MunicipalityLearning';
+import { Box, Tab, Tabs } from '@mui/material';
 
 interface TabPanelProps {
   children?: React.ReactNode;

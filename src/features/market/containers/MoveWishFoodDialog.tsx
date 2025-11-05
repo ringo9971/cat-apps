@@ -1,5 +1,5 @@
 import Component from 'features/market/components/MoveWishFoodDialog';
-import { WishFood, WeeklyMenu, CreateWishFood } from 'types/market/FoodMenu';
+import { CreateWishFood, WeeklyMenu, WishFood } from 'types/market/FoodMenu';
 
 interface MoveWishFoodDialogProps {
   open: boolean;

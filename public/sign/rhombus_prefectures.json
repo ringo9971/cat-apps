@@ -18,101 +18,101 @@
       "長崎県",
       "宮崎県",
       "鹿児島県"
-    ], 
+    ],
     "is_base": true
   },
   {
     "image_number": 2,
-    "prefectures": ["宮城県", "京都府", "兵庫県", "岡山県"], 
-    "is_base": true 
+    "prefectures": ["宮城県", "京都府", "兵庫県", "岡山県"],
+    "is_base": true
   },
   {
     "image_number": 3,
-    "prefectures": ["三重県", "高知県"], 
-    "is_base": true 
+    "prefectures": ["三重県", "高知県"],
+    "is_base": true
   },
   {
     "image_number": 4,
-    "prefectures": ["群馬県", "千葉県", "岐阜県"], 
+    "prefectures": ["群馬県", "千葉県", "岐阜県"],
     "is_base": true
   },
   {
     "image_number": 5,
-    "prefectures": ["奈良県", "和歌山県"], 
-    "is_base": true 
+    "prefectures": ["奈良県", "和歌山県"],
+    "is_base": true
   },
   {
     "image_number": 6,
-    "prefectures": ["栃木県", "茨城県", "埼玉県", "新潟県", "滋賀県", "沖縄県"], 
-    "is_base": true 
+    "prefectures": ["栃木県", "茨城県", "埼玉県", "新潟県", "滋賀県", "沖縄県"],
+    "is_base": true
   },
   {
     "image_number": 7,
-    "prefectures": ["富山県", "大分県"], 
+    "prefectures": ["富山県", "大分県"],
     "is_base": true
   },
   {
     "image_number": 8,
-    "prefectures": ["鳥取県", "島根県", "佐賀県"], 
-    "is_base": true 
+    "prefectures": ["鳥取県", "島根県", "佐賀県"],
+    "is_base": true
   },
   {
     "image_number": 9,
-    "prefectures": ["香川県"], 
-    "is_base": true 
+    "prefectures": ["香川県"],
+    "is_base": true
   },
   {
     "image_number": 10,
-    "prefectures": ["青森県"], 
-    "is_base": true 
+    "prefectures": ["青森県"],
+    "is_base": true
   },
   {
     "image_number": 11,
-    "prefectures": ["長野県", "山口県"], 
-    "is_base": false, 
-    "variant_of": 1 , 
+    "prefectures": ["長野県", "山口県"],
+    "is_base": false,
+    "variant_of": 1,
     "description": "細"
   },
   {
     "image_number": 12,
-    "prefectures": ["広島県", "徳島県"], 
-    "is_base": false, 
-    "variant_of": 2 , 
+    "prefectures": ["広島県", "徳島県"],
+    "is_base": false,
+    "variant_of": 2,
     "description": "小"
   },
   {
     "image_number": 13,
-    "prefectures": ["石川県", "熊本県"], 
-    "is_base": false, 
-    "variant_of": 3 , 
+    "prefectures": ["石川県", "熊本県"],
+    "is_base": false,
+    "variant_of": 3,
     "description": "細"
   },
   {
     "image_number": 14,
-    "prefectures": ["山梨県"], 
-    "is_base": false, 
-    "variant_of": 4 , 
+    "prefectures": ["山梨県"],
+    "is_base": false,
+    "variant_of": 4,
     "description": "細"
   },
   {
     "image_number": 15,
-    "prefectures": ["茨城県"], 
-    "is_base": false, 
-    "variant_of": 6 , 
+    "prefectures": ["茨城県"],
+    "is_base": false,
+    "variant_of": 6,
     "description": "細"
   },
   {
     "image_number": 16,
-    "prefectures": ["佐賀県"], 
-    "is_base": false, 
-    "variant_of": 8 , 
+    "prefectures": ["佐賀県"],
+    "is_base": false,
+    "variant_of": 8,
     "description": "小"
   },
   {
     "image_number": 17,
-    "prefectures": ["静岡県"], 
-    "is_base": false, 
-    "variant_of": 9 , 
+    "prefectures": ["静岡県"],
+    "is_base": false,
+    "variant_of": 9,
     "description": "細"
   }
 ]

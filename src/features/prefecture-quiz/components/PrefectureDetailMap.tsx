@@ -1,6 +1,7 @@
+import React, { useEffect, useRef, useState } from 'react';
+
 import * as d3 from 'd3';
 import { FeatureCollection, GeoJsonProperties, Geometry } from 'geojson';
-import React, { useRef, useEffect, useState } from 'react';
 import { Municipality } from 'types/prefecture-quiz/Municipality';
 
 interface PrefectureDetailMapProps {
@@ -19,7 +20,10 @@ export const PrefectureDetailMap: React.FC<PrefectureDetailMapProps> = ({
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [prefectureGeoJson, setPrefectureGeoJson] = useState<FeatureCollection<Geometry, GeoJsonProperties> | null>(null);
+  const [prefectureGeoJson, setPrefectureGeoJson] = useState<FeatureCollection<
+    Geometry,
+    GeoJsonProperties
+  > | null>(null);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -45,7 +49,9 @@ export const PrefectureDetailMap: React.FC<PrefectureDetailMapProps> = ({
       try {
         const response = await fetch('/japan.json');
         if (!response.ok) {
-          throw new Error(`Failed to fetch GeoJSON for Japan: ${response.statusText}`);
+          throw new Error(
+            `Failed to fetch GeoJSON for Japan: ${response.statusText}`
+          );
         }
         const allGeoJson = await response.json();
         const prefectureFeature = allGeoJson.features.find(
@@ -53,7 +59,10 @@ export const PrefectureDetailMap: React.FC<PrefectureDetailMapProps> = ({
         );
 
         if (prefectureFeature) {
-          setPrefectureGeoJson({ type: 'FeatureCollection', features: [prefectureFeature] });
+          setPrefectureGeoJson({
+            type: 'FeatureCollection',
+            features: [prefectureFeature],
+          });
         } else {
           setPrefectureGeoJson(null);
         }
@@ -67,7 +76,8 @@ export const PrefectureDetailMap: React.FC<PrefectureDetailMapProps> = ({
   }, [prefectureName]);
 
   useEffect(() => {
-    if (dimensions.width === 0 || dimensions.height === 0 || !prefectureGeoJson) return;
+    if (dimensions.width === 0 || dimensions.height === 0 || !prefectureGeoJson)
+      return;
 
     const svg = d3.select(svgRef.current as SVGSVGElement);
     svg.selectAll('*').remove();
@@ -78,7 +88,10 @@ export const PrefectureDetailMap: React.FC<PrefectureDetailMapProps> = ({
     const path = d3.geoPath().projection(projection);
 
     projection.fitExtent(
-      [[20, 20], [dimensions.width - 20, dimensions.height - 20]], // 20pxのパディング
+      [
+        [20, 20],
+        [dimensions.width - 20, dimensions.height - 20],
+      ], // 20pxのパディング
       prefectureGeoJson
     );
 
@@ -114,7 +127,9 @@ export const PrefectureDetailMap: React.FC<PrefectureDetailMapProps> = ({
         selectedMunicipality && d.code === selectedMunicipality.code ? 4 : 2
       ) // Radius of the dot
       .attr('fill', (d) =>
-        selectedMunicipality && d.code === selectedMunicipality.code ? 'red' : 'blue'
+        selectedMunicipality && d.code === selectedMunicipality.code
+          ? 'red'
+          : 'blue'
       )
       .attr('stroke', 'white')
       .attr('stroke-width', 0.5)

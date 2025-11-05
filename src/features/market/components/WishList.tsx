@@ -1,28 +1,32 @@
+import { useEffect, useState } from 'react';
+
 import {
-  closestCenter,
   DndContext,
   DragEndEvent,
   PointerSensor,
   TouchSensor,
+  closestCenter,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import {
-  arrayMove,
   SortableContext,
+  arrayMove,
   useSortable,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Card, Checkbox, CardContent, IconButton } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { Box, Card, CardContent, Checkbox, IconButton } from '@mui/material';
 import { WishItem } from 'types/market/WishItem';
 
 type WishItemCardProps = {
   wishItem: WishItem;
-  onDelete: (wishItem: WishItem, listType: 'wishList' | 'refrigeratorList') => void;
+  onDelete: (
+    wishItem: WishItem,
+    listType: 'wishList' | 'refrigeratorList'
+  ) => void;
   onCheck: (wishItem: WishItem) => void;
   listType: 'wishList' | 'refrigeratorList';
 };
@@ -102,7 +106,10 @@ const WishItemCard = ({
 type WishListProps = {
   isMobile: boolean;
   wishList: Array<WishItem>;
-  onDelete: (wishItem: WishItem, listType: 'wishList' | 'refrigeratorList') => void;
+  onDelete: (
+    wishItem: WishItem,
+    listType: 'wishList' | 'refrigeratorList'
+  ) => void;
   onCheck: (wishItem: WishItem) => void;
   onDragEnd: (WishList: Array<WishItem>) => void;
 };

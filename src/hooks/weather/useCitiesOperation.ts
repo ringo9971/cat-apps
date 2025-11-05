@@ -1,6 +1,7 @@
-import useCitiesMaster from 'hooks/weather/useCitiesMaster';
-import { getLocalStorage, setLocalStorage } from 'LocalStorage';
 import { useState } from 'react';
+
+import { getLocalStorage, setLocalStorage } from 'LocalStorage';
+import useCitiesMaster from 'hooks/weather/useCitiesMaster';
 import { City } from 'types/weather/City';
 
 interface CitiesOpearionState {

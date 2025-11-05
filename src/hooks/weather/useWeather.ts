@@ -1,5 +1,6 @@
-import { getWeather } from 'api/weather/getWeather';
 import { useEffect, useState } from 'react';
+
+import { getWeather } from 'api/weather/getWeather';
 import { City } from 'types/weather/City';
 import { Weather } from 'types/weather/Weather';
 

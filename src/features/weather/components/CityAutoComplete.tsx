@@ -1,11 +1,12 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import {
-  Box,
-  TextField,
   Autocomplete,
+  Box,
   Button,
   FilterOptionsState,
+  TextField,
 } from '@mui/material';
-import { Dispatch, SetStateAction } from 'react';
 import { City } from 'types/weather/City';
 
 interface CityAutoCompleteProps {

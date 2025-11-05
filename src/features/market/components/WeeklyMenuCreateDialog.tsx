@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import {
   Button,
   Dialog,
@@ -9,7 +11,6 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from '@mui/material';
-import { Dispatch, SetStateAction } from 'react';
 
 export interface WeeklyMenuCreateDialogProps {
   open: boolean;

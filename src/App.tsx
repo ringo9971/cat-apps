@@ -1,8 +1,7 @@
-import { ApiClientProvider } from 'lib/ApiClientContext';
-import { useRoutes } from 'react-router-dom';
-
 import routes from './Routes';
 import TopBar from './TopBar';
+import { ApiClientProvider } from 'lib/ApiClientContext';
+import { useRoutes } from 'react-router-dom';
 
 function App() {
   const routing = useRoutes(routes);

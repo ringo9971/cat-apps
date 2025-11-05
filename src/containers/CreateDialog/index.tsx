@@ -1,5 +1,6 @@
-import Component from 'components/CreateDialog/index';
 import { useState } from 'react';
+
+import Component from 'components/CreateDialog/index';
 
 interface CreateDialogProps<T, U> {
   open: boolean;

@@ -1,15 +1,27 @@
-import { Box, FormControlLabel, Switch, Typography, Accordion, AccordionSummary, AccordionDetails, TextField, Button } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useEffect, useState, useMemo } from 'react';
-import { Municipality } from 'types/prefecture-quiz/Municipality';
+import { useEffect, useMemo, useState } from 'react';
+
 import { PrefectureDetailMap } from './PrefectureDetailMap';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  FormControlLabel,
+  Switch,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { Municipality } from 'types/prefecture-quiz/Municipality';
 
 export const MunicipalityLearning = () => {
   const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
   const [cityOnlyMode, setCityOnlyMode] = useState(false);
   const [expanded, setExpanded] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedMunicipalityForMap, setSelectedMunicipalityForMap] = useState<Municipality | null>(null);
+  const [selectedMunicipalityForMap, setSelectedMunicipalityForMap] =
+    useState<Municipality | null>(null);
 
   useEffect(() => {
     fetch('/geolonia_municipalities.json')
@@ -32,7 +44,7 @@ export const MunicipalityLearning = () => {
                 prefecture: prefectureName,
                 latitude: cityData.point[1],
                 longitude: cityData.point[0],
-                code: cityData.code
+                code: cityData.code,
               });
             }
           });
@@ -202,7 +214,12 @@ export const MunicipalityLearning = () => {
                   {towns.map((town) => (
                     <Button
                       key={town.code}
-                      variant={selectedMunicipalityForMap && town.code === selectedMunicipalityForMap.code ? "contained" : "outlined"}
+                      variant={
+                        selectedMunicipalityForMap &&
+                        town.code === selectedMunicipalityForMap.code
+                          ? 'contained'
+                          : 'outlined'
+                      }
                       size="small"
                       onClick={() => handleMunicipalityClick(town)}
                       sx={{ border: '1px solid #eee', p: 0.5, borderRadius: 1 }}

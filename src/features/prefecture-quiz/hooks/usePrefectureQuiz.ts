@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { Municipality } from 'types/prefecture-quiz/Municipality';
 
 const regionMap: { [key: string]: string } = {

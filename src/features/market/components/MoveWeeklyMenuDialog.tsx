@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import {
   Button,
   Dialog,
@@ -5,11 +7,10 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-  Typography,
   ToggleButton,
   ToggleButtonGroup,
+  Typography,
 } from '@mui/material';
-import { Dispatch, SetStateAction } from 'react';
 import { WishFood } from 'types/market/FoodMenu';
 
 const labels = ['月', '火', '水', '木', '金', '土', '日'];

@@ -1,5 +1,6 @@
-import { useUser } from 'hooks/firebase/useUser';
 import { ReactElement } from 'react';
+
+import { useUser } from 'hooks/firebase/useUser';
 import { Navigate, useLocation } from 'react-router-dom';
 
 interface AuthRouteProps {

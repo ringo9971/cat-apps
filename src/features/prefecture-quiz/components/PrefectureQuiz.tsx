@@ -1,15 +1,15 @@
+import { useState } from 'react';
+
+import { usePrefectureQuiz } from '../hooks/usePrefectureQuiz';
+import { JapanMapD3 } from './JapanMapD3';
 import {
   Box,
   Button,
   CircularProgress,
-  Typography,
   FormControlLabel,
   Switch,
+  Typography,
 } from '@mui/material';
-import { useState } from 'react';
-
-import { JapanMapD3 } from './JapanMapD3';
-import { usePrefectureQuiz } from '../hooks/usePrefectureQuiz';
 
 export const PrefectureQuiz = () => {
   const [cityOnlyMode, setCityOnlyMode] = useState(false);

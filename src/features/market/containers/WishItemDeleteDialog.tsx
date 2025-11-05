@@ -5,7 +5,10 @@ interface WishItemDeleteDialogProps {
   open: boolean;
   onClose: () => void;
   wishItem: WishItem;
-  deleteWishItem: (wishItem: WishItem, listType: 'wishList' | 'refrigeratorList') => Promise<WishItem>;
+  deleteWishItem: (
+    wishItem: WishItem,
+    listType: 'wishList' | 'refrigeratorList'
+  ) => Promise<WishItem>;
   listType: 'wishList' | 'refrigeratorList';
 }
 

@@ -1,7 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import RedoIcon from '@mui/icons-material/Redo';
 import { Box, Card, CardContent, IconButton } from '@mui/material';
-import { type WeeklyMenu, FoodMenu } from 'types/market/FoodMenu';
+import { FoodMenu, type WeeklyMenu } from 'types/market/FoodMenu';
 
 const getColor = (id: number) => {
   switch (id) {

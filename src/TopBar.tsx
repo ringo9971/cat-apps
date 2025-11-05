@@ -1,19 +1,20 @@
+import { MouseEvent, useState } from 'react';
+
 import { Logout } from '@mui/icons-material';
 import {
-  Button,
-  Box,
   AppBar,
-  Toolbar,
-  Tooltip,
-  IconButton,
   Avatar,
+  Box,
+  Button,
+  IconButton,
+  ListItemIcon,
   Menu,
   MenuItem,
-  ListItemIcon,
+  Toolbar,
+  Tooltip,
 } from '@mui/material';
 import { useLogout } from 'hooks/firebase/useLogout';
 import { useUser } from 'hooks/firebase/useUser';
-import { useState, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 const TopBar = (): JSX.Element => {

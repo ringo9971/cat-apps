@@ -1,10 +1,10 @@
 import {
-  doc,
   DocumentData,
   Firestore,
+  Timestamp,
+  doc,
   getDoc,
   setDoc,
-  Timestamp,
 } from 'firebase/firestore';
 import { WithId } from 'types/WithId';
 import { v4 as uuidv4 } from 'uuid';

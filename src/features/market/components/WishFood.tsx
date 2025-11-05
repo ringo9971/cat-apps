@@ -42,7 +42,9 @@ const WishFood = ({
         >
           <CardContent>{food.name}</CardContent>
           <Box display="flex" justifyContent="flex-end" sx={{ flexGrow: 1 }}>
-            <IconButton onClick={() => openMoveWeeklyMenuDialog(food as WishFood)}>
+            <IconButton
+              onClick={() => openMoveWeeklyMenuDialog(food as WishFood)}
+            >
               <ImportExportIcon />
             </IconButton>
             <IconButton onClick={() => openDeleteDialog(food as WishFood)}>

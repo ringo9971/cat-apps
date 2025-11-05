@@ -1,4 +1,4 @@
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import AuthLogin from 'components/AuthLogin';
 import { useUser } from 'hooks/firebase/useUser';
 import { useNavigate } from 'react-router-dom';
