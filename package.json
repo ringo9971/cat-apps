@@ -8,6 +8,7 @@
     "start": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "fmt": "prettier . --write",
     "fix": "eslint . --fix"
   },
   "dependencies": {
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@eslint/js": "9.39.1",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "@types/d3": "^7.4.3",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
