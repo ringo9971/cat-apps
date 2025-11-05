@@ -17,7 +17,7 @@ export const MoveWishFoodDialog = ({
   menu,
   addFood,
   deleteWeeklyMenu,
-}: MoveWishFoodDialogProps): JSX.Element => {
+}: MoveWishFoodDialogProps) => {
   const onMoveMoveWishFood = async () => {
     await addFood({ name: menu });
     await deleteWeeklyMenu(day, menu);

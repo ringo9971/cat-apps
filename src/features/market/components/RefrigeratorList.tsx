@@ -25,7 +25,7 @@ const RefrigeratorItemCard = ({
   onDelete,
   onMoveToWishList,
   listType,
-}: RefrigeratorItemCardProps): JSX.Element => {
+}: RefrigeratorItemCardProps) => {
   const getTagColor = (tag: string) => {
     switch (tag) {
       case '食品':
@@ -102,7 +102,7 @@ const RefrigeratorList = ({
   refrigeratorList,
   onDelete,
   onMoveToWishList,
-}: RefrigeratorListProps): JSX.Element => {
+}: RefrigeratorListProps) => {
   return (
     <Box>
       {refrigeratorList.map((wishItem) => (

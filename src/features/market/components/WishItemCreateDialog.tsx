@@ -24,7 +24,7 @@ const WishItemCreateDialog = ({
   onCreateClick,
   wishItem,
   updateWishItem,
-}: WishItemCreateDialogProps): JSX.Element => (
+}: WishItemCreateDialogProps) => (
   <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth={true}>
     <DialogTitle>欲しいもの</DialogTitle>
     <DialogContent>

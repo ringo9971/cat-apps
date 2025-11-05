@@ -10,7 +10,7 @@ import SwiperCore from 'swiper';
 import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-export const MarketPage = (): JSX.Element => {
+export const MarketPage = () => {
   const [tabpage, setTabpage] = useState(0);
   const swiperRef = useRef<SwiperCore | null>(null);
 

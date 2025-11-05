@@ -14,7 +14,7 @@ export const CreateDialog = <T extends { name: string }, U>({
   onClose,
   title,
   addItem,
-}: CreateDialogProps<T, U>): JSX.Element => {
+}: CreateDialogProps<T, U>) => {
   const [item, setItem] = useState<T>({ name: '' } as T);
   const updateItem = (item: string) => {
     setItem((i) => ({ ...i, name: item }));

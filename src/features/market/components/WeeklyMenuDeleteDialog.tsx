@@ -19,7 +19,7 @@ const WeeklyMenuDeleteDialog = ({
   onClose,
   menu,
   onDeleteClick,
-}: WeeklyMenuDeleteDialogProps): JSX.Element => (
+}: WeeklyMenuDeleteDialogProps) => (
   <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth={true}>
     <DialogTitle>削除の確認</DialogTitle>
     <DialogContent>

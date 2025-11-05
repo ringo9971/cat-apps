@@ -49,7 +49,7 @@ const WishItemCard = ({
   onDelete,
   onCheck,
   listType,
-}: WishItemCardProps): JSX.Element => {
+}: WishItemCardProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: wishItem.id });
 
@@ -120,7 +120,7 @@ const WishList = ({
   onDelete,
   onCheck,
   onDragEnd,
-}: WishListProps): JSX.Element => {
+}: WishListProps) => {
   const pointerSensor = useSensor(PointerSensor, {});
   const touchSensor = useSensor(TouchSensor, {
     activationConstraint: { tolerance: 5, delay: 500 },

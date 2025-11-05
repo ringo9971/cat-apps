@@ -17,7 +17,7 @@ import { useLogout } from 'hooks/firebase/useLogout';
 import { useUser } from 'hooks/firebase/useUser';
 import { Link } from 'react-router-dom';
 
-const TopBar = (): JSX.Element => {
+const TopBar = () => {
   const { user, loading } = useUser();
   const { logout } = useLogout();
 

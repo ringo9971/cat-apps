@@ -19,7 +19,7 @@ const DeleteDialog = <T extends { name: string }>({
   onClose,
   onDelete,
   item,
-}: DeleteDialogProps<T>): JSX.Element => (
+}: DeleteDialogProps<T>) => (
   <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth={true}>
     <DialogTitle>削除の確認</DialogTitle>
     <DialogContent>

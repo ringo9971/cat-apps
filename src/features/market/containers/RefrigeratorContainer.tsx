@@ -19,7 +19,7 @@ export const RefrigeratorContainer = ({
   | 'closeDialog'
   | 'deleteWishItem'
   | 'toggleAndMoveWishItem'
->): JSX.Element => {
+>) => {
   const handleDelete = (wishItem: WishItem) => {
     openDeleteDialog(wishItem, 'refrigeratorList');
   };

@@ -16,7 +16,7 @@ export const WishItemCreateDialog = ({
   open,
   onClose,
   createWishItem,
-}: WishItemCreateDialogProps): JSX.Element => {
+}: WishItemCreateDialogProps) => {
   const [wishItem, setWishItem] = useState<CreateWishItem>({
     name: '',
     tag: '食品',

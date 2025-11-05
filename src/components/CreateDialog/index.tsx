@@ -24,7 +24,7 @@ const CreateDialog = <T extends { name: string }>({
   title,
   item,
   updateItem,
-}: CreateDialogProps<T>): JSX.Element => (
+}: CreateDialogProps<T>) => (
   <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth={true}>
     <DialogTitle>{title}</DialogTitle>
     <DialogContent>

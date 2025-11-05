@@ -33,7 +33,7 @@ const WeeklyMenuCreateDialog = ({
   setDay,
   menu,
   setMenu,
-}: WeeklyMenuCreateDialogProps): JSX.Element => (
+}: WeeklyMenuCreateDialogProps) => (
   <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth={true}>
     <DialogTitle>食べたいもの</DialogTitle>
     <DialogContent>

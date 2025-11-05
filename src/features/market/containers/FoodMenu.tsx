@@ -12,7 +12,7 @@ import useMoveDialog from 'hooks/market/useMoveDialog';
 import useWeeklyMenuOperation from 'hooks/market/useWeeklyMenuOperation';
 import useFoodMenuOperation from 'hooks/market/useWishFoodOperation';
 
-export const FoodMenuContainer = (): JSX.Element => {
+export const FoodMenuContainer = () => {
   const {
     weeklyMenu,
     dialogState,

@@ -12,7 +12,7 @@ export const DeleteDialog = <T extends { name: string }>({
   onClose,
   item,
   deleteItem,
-}: DeleteDialogProps<T>): JSX.Element => {
+}: DeleteDialogProps<T>) => {
   const onDelete = async () => {
     await deleteItem(item);
     onClose();

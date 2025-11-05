@@ -16,7 +16,7 @@ const WishFood = ({
   openCreateDialog,
   openDeleteDialog,
   openMoveWeeklyMenuDialog,
-}: WishFoodProps): JSX.Element => {
+}: WishFoodProps) => {
   return (
     <Box>
       <Box display="flex" alignItems="center">

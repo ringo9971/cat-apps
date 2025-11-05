@@ -5,7 +5,7 @@ import ToDoItemDeleteDialog from 'containers/DeleteDialog/index';
 import ToDoList from 'features/market/components/ToDoList';
 import useToDoOperation from 'hooks/market/useToDoOperation';
 
-export const ToDoListContainer = (): JSX.Element => {
+export const ToDoListContainer = () => {
   const {
     items,
     dialogState,

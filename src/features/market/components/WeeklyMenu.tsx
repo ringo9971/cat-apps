@@ -92,7 +92,7 @@ const WeeklyMenu = ({
   menu,
   openMoveWishFoodDialog,
   openDeleteDialog,
-}: WeeklyMenuProps): JSX.Element => {
+}: WeeklyMenuProps) => {
   return (
     <Box>
       <MenuComponent

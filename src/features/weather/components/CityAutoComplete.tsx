@@ -21,7 +21,7 @@ export const CityAutoComplete = ({
   setText,
   citiesMaster,
   addCity,
-}: CityAutoCompleteProps): JSX.Element => {
+}: CityAutoCompleteProps) => {
   const filterOptions = (
     options: Array<City>,
     { inputValue }: FilterOptionsState<City>

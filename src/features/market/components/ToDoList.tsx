@@ -7,7 +7,7 @@ type ToDoListProps = {
   onDelete: (item: ToDoItem) => void;
 };
 
-const ToDoList = ({ items, onDelete }: ToDoListProps): JSX.Element => (
+const ToDoList = ({ items, onDelete }: ToDoListProps) => (
   <Box>
     {items.map((item) => (
       <Card

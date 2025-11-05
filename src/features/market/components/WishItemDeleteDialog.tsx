@@ -20,7 +20,7 @@ const WishItemDeleteDialog = ({
   onClose,
   onDeleteClick,
   wishItem,
-}: WishItemDeleteDialogProps): JSX.Element => (
+}: WishItemDeleteDialogProps) => (
   <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth={true}>
     <DialogTitle>削除の確認</DialogTitle>
     <DialogContent>

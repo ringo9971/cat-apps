@@ -17,9 +17,7 @@ const imagePaths: Record<WeatherCondition, string> = {
   rainy: '/weather/rainy.png',
 };
 
-const WeatherOneDayCard = ({
-  forecast,
-}: WeatherOneDayCardProps): JSX.Element => {
+const WeatherOneDayCard = ({ forecast }: WeatherOneDayCardProps) => {
   const getWeatherImage = (weather?: WeatherForecastCondition) => {
     const style: React.CSSProperties = {
       maxWidth: '60%',
@@ -97,12 +95,12 @@ export type WeatherCardProps = {
   weather: Weather;
 };
 
-const WeatherCard = ({ weather }: WeatherCardProps): JSX.Element => {
+const WeatherCard = ({ weather }: WeatherCardProps) => {
   return (
     <Card>
       <CardContent>
         <Grid container alignItems="center">
-          <Grid item>
+          <Grid>
             <Typography variant="h2">{weather.location.city}</Typography>
           </Grid>
         </Grid>
@@ -115,9 +113,8 @@ const WeatherCard = ({ weather }: WeatherCardProps): JSX.Element => {
           ].map(({ label, forecast }) => {
             return (
               <Grid
-                item
                 key={label}
-                xs={4}
+                size={4}
                 style={{ display: 'flex', flexDirection: 'column' }}
               >
                 <WeatherOneDayCard forecast={forecast} />

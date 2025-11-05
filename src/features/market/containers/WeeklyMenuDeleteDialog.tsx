@@ -15,7 +15,7 @@ export const WeeklyMenuDeleteDialog = ({
   day,
   menu,
   deleteMenu,
-}: WeeklyMenuDeleteDialogProps): JSX.Element => {
+}: WeeklyMenuDeleteDialogProps) => {
   const onDeleteWeeklyMenu = async () => {
     await deleteMenu(day, menu);
     onClose();

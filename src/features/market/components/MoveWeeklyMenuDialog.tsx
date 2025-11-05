@@ -32,7 +32,7 @@ const MoveWeeklyMenuDialog = ({
   food,
   day,
   setDay,
-}: MoveWeeklyMenuDialogProps): JSX.Element => (
+}: MoveWeeklyMenuDialogProps) => (
   <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth={true}>
     <DialogTitle>献立に移動</DialogTitle>
     <DialogContent>

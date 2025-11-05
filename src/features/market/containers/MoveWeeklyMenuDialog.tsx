@@ -17,7 +17,7 @@ export const MoveWeeklyMenuDialog = ({
   food,
   addMenu,
   deleteWishFood,
-}: MoveWeeklyMenuDialogProps): JSX.Element => {
+}: MoveWeeklyMenuDialogProps) => {
   const [day, setDay] = useState(0);
 
   const onMoveMoveWeeklyMenu = async () => {

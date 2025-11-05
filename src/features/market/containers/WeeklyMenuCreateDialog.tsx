@@ -13,7 +13,7 @@ export const WeeklyMenuCreateDialog = ({
   open,
   onClose,
   addMenu,
-}: WeeklyMenuCreateDialogProps): JSX.Element => {
+}: WeeklyMenuCreateDialogProps) => {
   const [day, setDay] = useState(0);
   const [menu, setMenu] = useState('');
 

@@ -18,7 +18,7 @@ export const WishItemDeleteDialog = ({
   wishItem,
   deleteWishItem,
   listType,
-}: WishItemDeleteDialogProps): JSX.Element => {
+}: WishItemDeleteDialogProps) => {
   const onDeleteWishItem = async () => {
     await deleteWishItem(wishItem, listType);
     onClose();

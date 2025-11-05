@@ -6,7 +6,7 @@ interface WeatherListProps {
   weathers: ReadonlyArray<Weather>;
 }
 
-export const WeatherList = ({ weathers }: WeatherListProps): JSX.Element => (
+export const WeatherList = ({ weathers }: WeatherListProps) => (
   <Box>
     {weathers.map((weather) => (
       <Box key={weather.title}>

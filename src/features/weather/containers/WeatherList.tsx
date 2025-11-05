@@ -7,7 +7,7 @@ import useCitiesMaster from 'hooks/weather/useCitiesMaster';
 import useCitiesOpeartion from 'hooks/weather/useCitiesOperation';
 import useWeather from 'hooks/weather/useWeather';
 
-export const WeatherListContainer = (): JSX.Element => {
+export const WeatherListContainer = () => {
   const { cities, addCity } = useCitiesOpeartion();
   const { weathers, fetchWeather } = useWeather({ cities });
 

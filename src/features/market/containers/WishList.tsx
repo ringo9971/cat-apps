@@ -28,7 +28,7 @@ export const WishListContainer = ({
   | 'deleteWishItem'
   | 'toggleAndMoveWishItem'
   | 'sortWishList'
->): JSX.Element => {
+>) => {
   const isMobile = useMemo(
     () => window.matchMedia('(pointer: coarse)').matches,
     []

@@ -20,7 +20,7 @@ const MoveWishFoodDialog = ({
   onClose,
   onMoveClick,
   menu,
-}: MoveWishFoodDialogProps): JSX.Element => (
+}: MoveWishFoodDialogProps) => (
   <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth={true}>
     <DialogTitle>メモに移動</DialogTitle>
     <DialogContent>
