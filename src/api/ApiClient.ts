@@ -1,13 +1,36 @@
+import { ScheduledMenu, WeeklyMenu } from '@/types/market/Menu.ts';
+import { format } from 'date-fns';
 import {
   DocumentData,
   Firestore,
   Timestamp,
+  collection,
   doc,
   getDoc,
+  getDocs,
+  query,
   setDoc,
+  where,
+  writeBatch,
 } from 'firebase/firestore';
 import { WithId } from 'types/WithId';
 import { v4 as uuidv4 } from 'uuid';
+
+export const createBaseMenu = (start: Date, end: Date): WeeklyMenu => {
+  const d = new Date(start);
+  const map = new Map<string, ScheduledMenu>();
+  while (d <= end) {
+    const key = format(d, 'yyyy-MM-dd');
+    map.set(key, {
+      date: key,
+      name: '',
+      category: '',
+      difficulty: 'normal',
+    });
+    d.setDate(d.getDate() + 1);
+  }
+  return { menus: map };
+};
 
 const convertTimestampsToDates = (data: any): any => {
   if (data === null || typeof data !== 'object') {
@@ -119,5 +142,38 @@ export class ApiClient {
     );
 
     return data;
+  }
+
+  async getWeeklyMenu(start: Date, end: Date): Promise<WeeklyMenu> {
+    const startKey = format(start, 'yyyy-MM-dd');
+    const endKey = format(end, 'yyyy-MM-dd');
+
+    const ref = collection(this.firestore, 'menu');
+    const q = query(
+      ref,
+      where('__name__', '>=', startKey),
+      where('__name__', '<=', endKey)
+    );
+
+    const snap = await getDocs(q);
+    const plans = createBaseMenu(start, end);
+    snap.forEach((doc) => {
+      plans.menus.set(doc.id, {
+        ...doc.data(),
+      } as ScheduledMenu);
+    });
+    return plans;
+  }
+
+  async updateWeeklyMenu(plans: WeeklyMenu): Promise<WeeklyMenu> {
+    const batch = writeBatch(this.firestore);
+    const ref = collection(this.firestore, 'menu');
+    plans.menus.forEach((menu, id) => {
+      const docRef = doc(ref, id);
+      batch.set(docRef, menu, { merge: true });
+    });
+    await batch.commit();
+
+    return plans;
   }
 }

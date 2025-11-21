@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
 import { Box, Tab, Tabs } from '@mui/material';
-import FoodMenuContainer from 'features/market/containers/FoodMenu';
+import MenuContainer from 'features/market/containers/Menu/Menu';
 import RefrigeratorContainer from 'features/market/containers/RefrigeratorContainer';
 import ToDoListContainer from 'features/market/containers/ToDoList';
 import WishListContainer from 'features/market/containers/WishList';
@@ -73,7 +73,7 @@ export const MarketPage = () => {
           />
         </SwiperSlide>
         <SwiperSlide>
-          <FoodMenuContainer />
+          <MenuContainer />
         </SwiperSlide>
         <SwiperSlide>
           <ToDoListContainer />
