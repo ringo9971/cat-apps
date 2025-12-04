@@ -39,10 +39,25 @@ export const difficultyOrder: Record<Menu['difficulty'], number> = {
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
-  麺: '#ff9800',
-  和: '#4caf50',
+  和食: '#4caf50',
+  洋食: '#2196f3',
   中華: '#f44336',
+  麺: '#ff9800',
+  粉もん: '#9c27b0',
+  夏: '#00bcd4',
+  冬: '#795548',
   その他: '#9e9e9e',
+};
+
+export const categoryOrder: Record<string, number> = {
+  和食: 0,
+  洋食: 1,
+  中華: 2,
+  麺: 3,
+  粉もん: 4,
+  夏: 5,
+  冬: 6,
+  その他: 7,
 };
 
 function hexToHsl(hex: string): { h: number; s: number; l: number } {
