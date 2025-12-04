@@ -23,6 +23,38 @@ export interface WeeklyMenu {
   menus: Map<string, ScheduledMenu>;
 }
 
+export interface DisplayScheduledMenu {
+  date: string;
+  displayDate: string;
+  name: string;
+  category: string;
+  difficulty: 'easy' | 'normal' | 'hard';
+}
+
+const formatDisplayDate = (dateStr: string) => {
+  const date = new Date(dateStr);
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const weekday = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()];
+  return `${month}-${day}（${weekday}）`;
+};
+
+export const convertDisplayScheduledMenu = (
+  menu: ScheduledMenu
+): DisplayScheduledMenu => {
+  return {
+    date: menu.date,
+    displayDate: formatDisplayDate(menu.date),
+    name: menu.name,
+    category: menu.category,
+    difficulty: menu.difficulty,
+  };
+};
+
+export interface DisplayWeeklyMenu {
+  menus: Map<string, DisplayScheduledMenu>;
+}
+
 export const menuToSchedle = (menu: Menu, date: string): ScheduledMenu => {
   return {
     date,
