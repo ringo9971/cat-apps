@@ -3,7 +3,6 @@ import { useRef, useState } from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
 import MenuContainer from 'features/market/containers/Menu/Menu';
 import RefrigeratorContainer from 'features/market/containers/RefrigeratorContainer';
-import ToDoListContainer from 'features/market/containers/ToDoList';
 import WishListContainer from 'features/market/containers/WishList';
 import useWishItemsOperation from 'hooks/market/useWishItemsOperation';
 import SwiperCore from 'swiper';
@@ -38,7 +37,6 @@ export const MarketPage = () => {
         <Tab label="買い物" />
         <Tab label="冷蔵庫" />
         <Tab label="献立" />
-        <Tab label="ToDo" />
       </Tabs>
       <Swiper
         onSlideChange={(swiper) => setTabpage(swiper.activeIndex)}
@@ -74,9 +72,6 @@ export const MarketPage = () => {
         </SwiperSlide>
         <SwiperSlide>
           <MenuContainer />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ToDoListContainer />
         </SwiperSlide>
       </Swiper>
     </Box>
