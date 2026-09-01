@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 
+import { ExpensePage } from '../pages/ExpensePage';
 import { Box, Tab, Tabs } from '@mui/material';
 import MenuContainer from 'features/market/containers/Menu/Menu';
 import RefrigeratorContainer from 'features/market/containers/RefrigeratorContainer';
@@ -37,6 +38,7 @@ export const MarketPage = () => {
         <Tab label="買い物" />
         <Tab label="冷蔵庫" />
         <Tab label="献立" />
+        <Tab label="家計簿" />
       </Tabs>
       <Swiper
         onSlideChange={(swiper) => setTabpage(swiper.activeIndex)}
@@ -72,6 +74,9 @@ export const MarketPage = () => {
         </SwiperSlide>
         <SwiperSlide>
           <MenuContainer />
+        </SwiperSlide>
+        <SwiperSlide>
+          <ExpensePage />
         </SwiperSlide>
       </Swiper>
     </Box>
