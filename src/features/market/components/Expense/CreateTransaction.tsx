@@ -60,7 +60,7 @@ export const CreateTransaction = ({
           <TextField
             label="金額"
             type="number"
-            value={form.value.amount}
+            value={form.value.amount ?? ''}
             onChange={(e) => {
               const value = e.target.value;
               form.changeValue('amount', value === '' ? null : Number(value));

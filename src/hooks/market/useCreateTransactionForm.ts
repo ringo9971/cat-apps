@@ -75,8 +75,16 @@ export const useCreateTransactionForm = (
 
     setIsPending(true);
     const request = toRequest(value);
-    createTransaction(request);
-    setIsPending(false);
+
+    try {
+      await createTransaction(request);
+      setValue((current) => ({
+        ...current,
+        amount: null,
+      }));
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return {
