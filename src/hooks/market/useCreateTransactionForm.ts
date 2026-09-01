@@ -13,12 +13,17 @@ interface FormValue {
   memo: string;
 }
 
-const createInitialValue = (): FormValue => ({
-  date: new Date(),
-  amount: null,
-  category: 'その他',
-  memo: '',
-});
+const createInitialValue = (): FormValue => {
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+
+  return {
+    date: today,
+    amount: null,
+    category: 'その他',
+    memo: '',
+  };
+};
 
 const toRequest = (form: FormValue): CreateTransactionRequest => ({
   date: form.date,

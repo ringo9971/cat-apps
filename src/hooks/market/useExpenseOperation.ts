@@ -31,7 +31,16 @@ export const useExpenseOperation = (): UseExpenseOperationHook => {
       CreateTransactionRequest,
       Transaction
     >('market', 'expense', item);
-    setTransactions((transactions) => [...transactions, res]);
+    setTransactions((transactions) =>
+      [...transactions, res].sort((a, b) => {
+        const dateA = a.date.toISOString().slice(0, 10);
+        const dateB = b.date.toISOString().slice(0, 10);
+        if (dateA !== dateB) {
+          return dateB.localeCompare(dateA);
+        }
+        return b.time.getTime() - a.time.getTime();
+      })
+    );
     return res;
   };
 
@@ -48,6 +57,14 @@ export const useExpenseOperation = (): UseExpenseOperationHook => {
   useEffect(() => {
     const fetch = async () => {
       const res = await getItems();
+      res.sort((a, b) => {
+        const dateA = a.date.toISOString().slice(0, 10);
+        const dateB = b.date.toISOString().slice(0, 10);
+        if (dateA !== dateB) {
+          return dateB.localeCompare(dateA);
+        }
+        return b.time.getTime() - a.time.getTime();
+      });
       setTransactions(res);
     };
     fetch();
