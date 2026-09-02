@@ -4,6 +4,7 @@ export interface Transaction {
   amount: number;
   category: string;
   memo: string;
+  userUid: string;
   time: Date;
 }
 
@@ -12,6 +13,7 @@ export interface CreateTransactionRequest {
   amount: number;
   category: string;
   memo: string;
+  userUid: string;
 }
 
 export const CATEGORIES = [

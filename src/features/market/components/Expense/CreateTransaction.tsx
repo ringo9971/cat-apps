@@ -14,15 +14,17 @@ import {
 } from '@mui/material';
 
 interface CreateTransactionProps {
+  userUid: string;
   createTransaction: (
     transaction: CreateTransactionRequest
   ) => Promise<Transaction>;
 }
 
 export const CreateTransaction = ({
+  userUid,
   createTransaction,
 }: CreateTransactionProps) => {
-  const form = useCreateTransactionForm(createTransaction);
+  const form = useCreateTransactionForm({ userUid, createTransaction });
 
   return (
     <Card>

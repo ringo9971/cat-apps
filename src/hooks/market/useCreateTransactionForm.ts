@@ -11,9 +11,10 @@ interface FormValue {
   amount: number | null;
   category: Category;
   memo: string;
+  userUid: string;
 }
 
-const createInitialValue = (): FormValue => {
+const createInitialValue = (userUid: string): FormValue => {
   const today = new Date();
   today.setUTCHours(0, 0, 0, 0);
 
@@ -22,6 +23,7 @@ const createInitialValue = (): FormValue => {
     amount: null,
     category: 'その他',
     memo: '',
+    userUid: userUid,
   };
 };
 
@@ -30,6 +32,7 @@ const toRequest = (form: FormValue): CreateTransactionRequest => ({
   amount: form.amount ?? 0,
   category: form.category,
   memo: form.memo,
+  userUid: form.userUid,
 });
 
 interface FormErrors {
@@ -46,6 +49,13 @@ const validateForm = (value: FormValue): FormErrors => {
   return errors;
 };
 
+interface CreateTransactionFormProps {
+  userUid: string;
+  createTransaction: (
+    transaction: CreateTransactionRequest
+  ) => Promise<Transaction>;
+}
+
 interface CreateTransactionForm {
   value: FormValue;
   errors: FormErrors;
@@ -54,12 +64,11 @@ interface CreateTransactionForm {
   submit: () => Promise<void>;
 }
 
-export const useCreateTransactionForm = (
-  createTransaction: (
-    transaction: CreateTransactionRequest
-  ) => Promise<Transaction>
-): CreateTransactionForm => {
-  const [value, setValue] = useState<FormValue>(createInitialValue);
+export const useCreateTransactionForm = ({
+  userUid,
+  createTransaction,
+}: CreateTransactionFormProps): CreateTransactionForm => {
+  const [value, setValue] = useState<FormValue>(createInitialValue(userUid));
   const [errors, setErrors] = useState<FormErrors>({});
   const [isPending, setIsPending] = useState(false);
 

@@ -3,7 +3,11 @@ import { TransactionCard } from '../components/Expense/TransactionCard';
 import { useExpenseOperation } from '@/hooks/market/useExpenseOperation';
 import { Box, Typography } from '@mui/material';
 
-export const ExpensePage = () => {
+interface ExpensePageProps {
+  userUid: string;
+}
+
+export const ExpensePage = ({ userUid }: ExpensePageProps) => {
   const { transactions, createTransaction } = useExpenseOperation();
 
   return (
@@ -12,7 +16,10 @@ export const ExpensePage = () => {
         <Typography color="primary" component="summary">
           登録
         </Typography>
-        <CreateTransaction createTransaction={createTransaction} />
+        <CreateTransaction
+          userUid={userUid}
+          createTransaction={createTransaction}
+        />
       </Box>
 
       <Box>

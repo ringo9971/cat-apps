@@ -1,13 +1,14 @@
 import { ReactElement } from 'react';
 
+import { User } from 'firebase/auth';
 import { useUser } from 'hooks/firebase/useUser';
 import { Navigate, useLocation } from 'react-router-dom';
 
 interface AuthRouteProps {
-  element: ReactElement;
+  children: (user: User) => ReactElement;
 }
 
-const AuthRoute = ({ element }: AuthRouteProps) => {
+const AuthRoute = ({ children }: AuthRouteProps) => {
   const { user, loading } = useUser();
   const location = useLocation();
 
@@ -19,7 +20,7 @@ const AuthRoute = ({ element }: AuthRouteProps) => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  return element;
+  return children(user);
 };
 
 export default AuthRoute;

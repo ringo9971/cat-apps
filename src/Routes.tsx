@@ -12,7 +12,10 @@ const routes: RouteObject[] = [
       { path: '/', element: <MainPage /> },
       { path: '/login', element: <LoginPage /> },
       { path: '/weather', element: <WeatherPage /> },
-      { path: '/market', element: <AuthRoute element={<MarketPage />} /> },
+      {
+        path: '/market',
+        element: <AuthRoute>{(user) => <MarketPage user={user} />}</AuthRoute>,
+      },
       { path: '/prefecture-quiz', element: <PrefectureQuizPage /> },
     ],
   },
