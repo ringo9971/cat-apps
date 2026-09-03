@@ -1,21 +1,3 @@
-export interface Transaction {
-  id: string;
-  date: Date;
-  amount: number;
-  category: string;
-  memo: string;
-  userUid: string;
-  time: Date;
-}
-
-export interface CreateTransactionRequest {
-  date: Date;
-  amount: number;
-  category: string;
-  memo: string;
-  userUid: string;
-}
-
 export const CATEGORIES = [
   'お菓子',
   '薬品',
@@ -26,3 +8,31 @@ export const CATEGORIES = [
 ] as const;
 
 export type Category = (typeof CATEGORIES)[number];
+
+export interface Transaction {
+  id: string;
+  date: Date;
+  amount: number;
+  category: Category;
+  memo: string;
+  userUid: string;
+  time: Date;
+}
+
+export interface CreateTransactionRequest {
+  date: Date;
+  amount: number;
+  category: Category;
+  memo: string;
+  userUid: string;
+}
+
+export interface UpdateTransactionRequest {
+  id: string;
+  date: Date;
+  amount: number;
+  category: Category;
+  memo: string;
+  userUid: string;
+  time: Date;
+}
