@@ -95,6 +95,7 @@ export const useCreateTransactionForm = ({
       setValue((current) => ({
         ...current,
         amount: null,
+        memo: '',
       }));
     } finally {
       setIsPending(false);
