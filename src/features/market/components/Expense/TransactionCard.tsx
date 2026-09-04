@@ -35,7 +35,14 @@ export const TransactionCard = ({
   return (
     <>
       <Card>
-        <CardContent>
+        <CardContent
+          sx={{
+            pt: 1,
+            '&:last-child': {
+              pb: 1,
+            },
+          }}
+        >
           <Box
             sx={{
               display: 'grid',
