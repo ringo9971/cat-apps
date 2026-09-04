@@ -1,13 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { useApiClient } from 'hooks/useApiClient';
-import { CreateTransactionRequest, Transaction } from 'types/market/Expense';
+import { useApiClient } from '../../hooks/useApiClient';
+import {
+  CreateTransactionRequest,
+  Transaction,
+} from '../../types/market/Expense';
 
 interface UseExpenseOperationHook {
   transactions: Array<Transaction>;
   createTransaction: (
     transaction: CreateTransactionRequest
   ) => Promise<Transaction>;
+  updateTransaction: (transaction: Transaction) => Promise<Transaction>;
   deleteTransaction: (transaction: Transaction) => Promise<Transaction>;
 }
 
@@ -25,12 +29,12 @@ export const useExpenseOperation = (): UseExpenseOperationHook => {
   }, [apiClient]);
 
   const createTransaction = async (
-    item: CreateTransactionRequest
+    req: CreateTransactionRequest
   ): Promise<Transaction> => {
     const res = await apiClient.addListItem<
       CreateTransactionRequest,
       Transaction
-    >('market', 'expense', item);
+    >('market', 'expense', req);
     setTransactions((transactions) =>
       [...transactions, res].sort((a, b) => {
         const dateA = a.date.toISOString().slice(0, 10);
@@ -44,13 +48,27 @@ export const useExpenseOperation = (): UseExpenseOperationHook => {
     return res;
   };
 
-  const deleteTransaction = async (item: Transaction): Promise<Transaction> => {
+  const updateTransaction = async (req: Transaction): Promise<Transaction> => {
+    const res = await apiClient.updateListItem<Transaction>(
+      'market',
+      'expense',
+      req
+    );
+    setTransactions((transactions) =>
+      transactions.map((t) => (t.id === req.id ? req : t))
+    );
+    return res;
+  };
+
+  const deleteTransaction = async (req: Transaction): Promise<Transaction> => {
     const res = await apiClient.deleteListItem<Transaction>(
       'market',
       'expense',
-      item
+      req
     );
-    setTransactions((foods) => foods.filter((f) => f.id !== item.id));
+    setTransactions((transactions) =>
+      transactions.filter((t) => t.id !== req.id)
+    );
     return res;
   };
 
@@ -73,6 +91,7 @@ export const useExpenseOperation = (): UseExpenseOperationHook => {
   return {
     transactions,
     createTransaction,
+    updateTransaction,
     deleteTransaction,
   };
 };

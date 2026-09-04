@@ -26,13 +26,3 @@ export interface CreateTransactionRequest {
   memo: string;
   userUid: string;
 }
-
-export interface UpdateTransactionRequest {
-  id: string;
-  date: Date;
-  amount: number;
-  category: Category;
-  memo: string;
-  userUid: string;
-  time: Date;
-}

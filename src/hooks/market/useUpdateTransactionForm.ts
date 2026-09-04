@@ -1,10 +1,6 @@
 import { useState } from 'react';
 
-import {
-  Category,
-  Transaction,
-  UpdateTransactionRequest,
-} from '../../types/market/Expense';
+import { Category, Transaction } from '../../types/market/Expense';
 
 interface FormValue {
   date: Date;
@@ -13,10 +9,7 @@ interface FormValue {
   memo: string;
 }
 
-const toRequest = (
-  transaction: Transaction,
-  form: FormValue
-): UpdateTransactionRequest => ({
+const toRequest = (transaction: Transaction, form: FormValue): Transaction => ({
   id: transaction.id,
   date: form.date,
   amount: form.amount ?? 0,
@@ -41,11 +34,8 @@ const validateForm = (value: FormValue): FormErrors => {
 };
 
 interface UpdateTransactionFormProps {
-  userUid: string;
   transaction: Transaction;
-  updateTransaction: (
-    transaction: UpdateTransactionRequest
-  ) => Promise<Transaction>;
+  updateTransaction: (req: Transaction) => Promise<Transaction>;
 }
 
 interface UpdateTransactionForm {
@@ -53,11 +43,10 @@ interface UpdateTransactionForm {
   errors: FormErrors;
   changeValue: <K extends keyof FormValue>(key: K, value: FormValue[K]) => void;
   isPending: boolean;
-  submit: () => Promise<void>;
+  submit: () => Promise<boolean>;
 }
 
 export const useUpdateTransactionForm = ({
-  userUid,
   transaction,
   updateTransaction,
 }: UpdateTransactionFormProps): UpdateTransactionForm => {
@@ -80,21 +69,19 @@ export const useUpdateTransactionForm = ({
     }));
   };
 
-  const submit = async (): Promise<void> => {
+  const submit = async (): Promise<boolean> => {
     const nextErrors = validateForm(value);
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) return;
+    if (Object.keys(nextErrors).length > 0) return false;
 
     setIsPending(true);
     const request = toRequest(transaction, value);
 
     try {
       await updateTransaction(request);
-      setValue((current) => ({
-        ...current,
-        amount: null,
-        memo: '',
-      }));
+      return true;
+    } catch {
+      return false;
     } finally {
       setIsPending(false);
     }
