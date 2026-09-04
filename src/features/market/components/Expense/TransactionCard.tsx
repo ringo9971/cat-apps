@@ -8,6 +8,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Typography,
 } from '@mui/material';
 import { Transaction } from 'types/market/Expense';
 
@@ -56,6 +57,15 @@ export const TransactionCard = ({
             >
               <MoreVert />
             </IconButton>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{
+                gridColumn: '2 / 4',
+              }}
+            >
+              {transaction.memo}
+            </Typography>
           </Box>
         </CardContent>
       </Card>
