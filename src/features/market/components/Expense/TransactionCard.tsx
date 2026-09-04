@@ -1,4 +1,14 @@
-import { Box, Card, CardContent } from '@mui/material';
+import { useState } from 'react';
+
+import { MoreVert } from '@mui/icons-material';
+import {
+  Box,
+  Card,
+  CardContent,
+  IconButton,
+  Menu,
+  MenuItem,
+} from '@mui/material';
 import { Transaction } from 'types/market/Expense';
 
 const formatDisplayDate = (date: Date) => {
@@ -9,22 +19,61 @@ const formatDisplayDate = (date: Date) => {
 
 interface TransactionCardProps {
   transaction: Transaction;
+  openEditDialog: (transaction: Transaction) => void;
 }
 
-export const TransactionCard = ({ transaction }: TransactionCardProps) => (
-  <Card>
-    <CardContent>
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: 'auto auto 1fr',
-          columnGap: 2,
+export const TransactionCard = ({
+  transaction,
+  openEditDialog,
+}: TransactionCardProps) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  return (
+    <>
+      <Card>
+        <CardContent>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: 'auto auto 1fr auto',
+              alignItems: 'center',
+              columnGap: 2,
+            }}
+          >
+            <Box>{formatDisplayDate(transaction.date)}</Box>
+            <Box>{transaction.category}</Box>
+            <Box sx={{ textAlign: 'right' }}>{transaction.amount}円</Box>
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                setAnchorEl(e.currentTarget);
+              }}
+            >
+              <MoreVert />
+            </IconButton>
+          </Box>
+        </CardContent>
+      </Card>
+
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={() => {
+          setAnchorEl(null);
         }}
       >
-        <Box>{formatDisplayDate(transaction.date)}</Box>
-        <Box>{transaction.category}</Box>
-        <Box sx={{ textAlign: 'right' }}>{transaction.amount}円</Box>
-      </Box>
-    </CardContent>
-  </Card>
-);
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(null);
+            openEditDialog(transaction);
+          }}
+          sx={{
+            gap: 1.25,
+          }}
+        >
+          編集
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};

@@ -1,14 +1,28 @@
+import { useState } from 'react';
+
+import { useExpenseOperation } from '../../../hooks/market/useExpenseOperation';
+import { Transaction } from '../../../types/market/Expense';
 import { CreateTransaction } from '../components/Expense/CreateTransaction';
 import { TransactionCard } from '../components/Expense/TransactionCard';
-import { useExpenseOperation } from '@/hooks/market/useExpenseOperation';
+import { UpdateTransactionDialog } from '../components/Expense/UpdateTransactionDialog';
 import { Box, Typography } from '@mui/material';
+
+type ExpenseDialogState = {
+  type: 'updateTransaction';
+  transaction: Transaction;
+} | null;
 
 interface ExpensePageProps {
   userUid: string;
 }
 
 export const ExpensePage = ({ userUid }: ExpensePageProps) => {
-  const { transactions, createTransaction } = useExpenseOperation();
+  const { transactions, createTransaction, updateTransaction } =
+    useExpenseOperation();
+
+  const [dialog, setDialog] = useState<ExpenseDialogState>(null);
+
+  const handleClose = () => setDialog(null);
 
   return (
     <Box>
@@ -24,9 +38,26 @@ export const ExpensePage = ({ userUid }: ExpensePageProps) => {
 
       <Box>
         {transactions.map((item) => (
-          <TransactionCard key={item.id} transaction={item} />
+          <TransactionCard
+            key={item.id}
+            transaction={item}
+            openEditDialog={(transaction: Transaction) =>
+              setDialog({
+                type: 'updateTransaction',
+                transaction,
+              })
+            }
+          />
         ))}
       </Box>
+
+      {dialog?.type === 'updateTransaction' && (
+        <UpdateTransactionDialog
+          transaction={dialog.transaction}
+          updateTransaction={updateTransaction}
+          onClose={handleClose}
+        />
+      )}
     </Box>
   );
 };
