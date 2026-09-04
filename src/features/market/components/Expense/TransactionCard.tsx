@@ -20,11 +20,13 @@ const formatDisplayDate = (date: Date) => {
 interface TransactionCardProps {
   transaction: Transaction;
   openEditDialog: (transaction: Transaction) => void;
+  isOwner: boolean;
 }
 
 export const TransactionCard = ({
   transaction,
   openEditDialog,
+  isOwner,
 }: TransactionCardProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   return (
@@ -48,6 +50,7 @@ export const TransactionCard = ({
                 e.stopPropagation();
                 setAnchorEl(e.currentTarget);
               }}
+              disabled={!isOwner}
             >
               <MoreVert />
             </IconButton>

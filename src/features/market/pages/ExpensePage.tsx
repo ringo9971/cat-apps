@@ -47,6 +47,7 @@ export const ExpensePage = ({ userUid }: ExpensePageProps) => {
                 transaction,
               })
             }
+            isOwner={userUid === item.userUid}
           />
         ))}
       </Box>
