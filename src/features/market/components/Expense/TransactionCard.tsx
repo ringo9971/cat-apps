@@ -20,12 +20,14 @@ const formatDisplayDate = (date: Date) => {
 interface TransactionCardProps {
   transaction: Transaction;
   openEditDialog: (transaction: Transaction) => void;
+  openDeleteDialog: (transaction: Transaction) => void;
   isOwner: boolean;
 }
 
 export const TransactionCard = ({
   transaction,
   openEditDialog,
+  openDeleteDialog,
   isOwner,
 }: TransactionCardProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -75,6 +77,17 @@ export const TransactionCard = ({
           }}
         >
           編集
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(null);
+            openDeleteDialog(transaction);
+          }}
+          sx={{
+            gap: 1.25,
+          }}
+        >
+          削除
         </MenuItem>
       </Menu>
     </>

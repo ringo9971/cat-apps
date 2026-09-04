@@ -3,22 +3,33 @@ import { useState } from 'react';
 import { useExpenseOperation } from '../../../hooks/market/useExpenseOperation';
 import { Transaction } from '../../../types/market/Expense';
 import { CreateTransaction } from '../components/Expense/CreateTransaction';
+import { DeleteTransactionDialog } from '../components/Expense/DeleteTransactionDialog';
 import { TransactionCard } from '../components/Expense/TransactionCard';
 import { UpdateTransactionDialog } from '../components/Expense/UpdateTransactionDialog';
 import { Box, Typography } from '@mui/material';
 
-type ExpenseDialogState = {
-  type: 'updateTransaction';
-  transaction: Transaction;
-} | null;
+type ExpenseDialogState =
+  | {
+      type: 'updateTransaction';
+      transaction: Transaction;
+    }
+  | {
+      type: 'deleteTransaction';
+      transaction: Transaction;
+    }
+  | null;
 
 interface ExpensePageProps {
   userUid: string;
 }
 
 export const ExpensePage = ({ userUid }: ExpensePageProps) => {
-  const { transactions, createTransaction, updateTransaction } =
-    useExpenseOperation();
+  const {
+    transactions,
+    createTransaction,
+    updateTransaction,
+    deleteTransaction,
+  } = useExpenseOperation();
 
   const [dialog, setDialog] = useState<ExpenseDialogState>(null);
 
@@ -47,6 +58,12 @@ export const ExpensePage = ({ userUid }: ExpensePageProps) => {
                 transaction,
               })
             }
+            openDeleteDialog={(transaction: Transaction) =>
+              setDialog({
+                type: 'deleteTransaction',
+                transaction,
+              })
+            }
             isOwner={userUid === item.userUid}
           />
         ))}
@@ -56,6 +73,13 @@ export const ExpensePage = ({ userUid }: ExpensePageProps) => {
         <UpdateTransactionDialog
           transaction={dialog.transaction}
           updateTransaction={updateTransaction}
+          onClose={handleClose}
+        />
+      )}
+      {dialog?.type === 'deleteTransaction' && (
+        <DeleteTransactionDialog
+          transaction={dialog.transaction}
+          deleteTransaction={deleteTransaction}
           onClose={handleClose}
         />
       )}
