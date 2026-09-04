@@ -69,6 +69,13 @@ export const UpdateTransactionDialog = ({
             error={Boolean(form.errors.amount)}
             helperText={form.errors.amount}
           />
+
+          <TextField
+            label="メモ"
+            value={form.value.memo ?? ''}
+            onChange={(e) => form.changeValue('memo', e.target.value)}
+            multiline
+          />
         </Stack>
       </DialogContent>
       <DialogActions>

@@ -71,6 +71,13 @@ export const CreateTransaction = ({
             helperText={form.errors.amount}
           />
 
+          <TextField
+            label="メモ"
+            value={form.value.memo ?? ''}
+            onChange={(e) => form.changeValue('memo', e.target.value)}
+            multiline
+          />
+
           <Button
             variant="contained"
             onClick={() => void form.submit()}

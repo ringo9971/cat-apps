@@ -42,6 +42,13 @@ export const DeleteTransactionDialog = ({
             value={transaction.amount}
             disabled
           />
+
+          <TextField
+            label="メモ"
+            value={transaction.memo ?? ''}
+            multiline
+            disabled
+          />
         </Stack>
       </Stack>
     </DialogContent>
