@@ -6,7 +6,14 @@ import { CreateTransaction } from '../components/Expense/CreateTransaction';
 import { DeleteTransactionDialog } from '../components/Expense/DeleteTransactionDialog';
 import { TransactionCard } from '../components/Expense/TransactionCard';
 import { UpdateTransactionDialog } from '../components/Expense/UpdateTransactionDialog';
-import { Box, Typography } from '@mui/material';
+import {
+  Box,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from '@mui/material';
+
+type TransactionFilter = 'all' | 'mine';
 
 type ExpenseDialogState =
   | {
@@ -32,8 +39,14 @@ export const ExpensePage = ({ userUid }: ExpensePageProps) => {
   } = useExpenseOperation();
 
   const [dialog, setDialog] = useState<ExpenseDialogState>(null);
+  const [filter, setFilter] = useState<TransactionFilter>('all');
 
   const handleClose = () => setDialog(null);
+
+  const filteredTransations =
+    filter === 'mine'
+      ? transactions.filter((item) => item.userUid === userUid)
+      : transactions;
 
   return (
     <Box>
@@ -47,8 +60,18 @@ export const ExpensePage = ({ userUid }: ExpensePageProps) => {
         />
       </Box>
 
+      <ToggleButtonGroup
+        value={filter}
+        onChange={(_, value) => setFilter(value)}
+        size="small"
+        exclusive
+      >
+        <ToggleButton value="all">全員</ToggleButton>
+        <ToggleButton value="mine">自分</ToggleButton>
+      </ToggleButtonGroup>
+
       <Box>
-        {transactions.map((item) => (
+        {filteredTransations.map((item) => (
           <TransactionCard
             key={item.id}
             transaction={item}
