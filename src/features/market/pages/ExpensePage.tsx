@@ -4,6 +4,7 @@ import { useExpenseOperation } from '../../../hooks/market/useExpenseOperation';
 import { Transaction } from '../../../types/market/Expense';
 import { CreateTransaction } from '../components/Expense/CreateTransaction';
 import { DeleteTransactionDialog } from '../components/Expense/DeleteTransactionDialog';
+import { ExpenseSummaryChart } from '../components/Expense/ExpenseSummaryChart';
 import { TransactionCard } from '../components/Expense/TransactionCard';
 import { UpdateTransactionDialog } from '../components/Expense/UpdateTransactionDialog';
 import {
@@ -69,6 +70,8 @@ export const ExpensePage = ({ userUid }: ExpensePageProps) => {
         <ToggleButton value="all">全員</ToggleButton>
         <ToggleButton value="mine">自分</ToggleButton>
       </ToggleButtonGroup>
+
+      <ExpenseSummaryChart transactions={filteredTransations} />
 
       <Box>
         {filteredTransations.map((item) => (
