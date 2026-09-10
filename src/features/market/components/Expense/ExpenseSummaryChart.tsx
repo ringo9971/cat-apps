@@ -24,7 +24,7 @@ export const ExpenseSummaryChart = ({
     return Array.from(amounts, ([date, amount]) => ({
       date,
       amount,
-    }));
+    })).sort((a, b) => a.date.localeCompare(b.date));
   }, [transactions]);
 
   const categoryData = useMemo(() => {
