@@ -29,3 +29,13 @@ export interface CreateTransactionRequest {
   memo: string;
   userUid: string;
 }
+
+type TransactionOwnerFilter = 'all' | 'mine';
+
+export interface TransactionFilter {
+  owner: TransactionOwnerFilter;
+}
+
+export const initialTransactionFilter = (): TransactionFilter => ({
+  owner: 'all',
+});

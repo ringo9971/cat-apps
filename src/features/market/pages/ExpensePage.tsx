@@ -7,14 +7,13 @@ import { DeleteTransactionDialog } from '../components/Expense/DeleteTransaction
 import { ExpenseSummaryChart } from '../components/Expense/ExpenseSummaryChart';
 import { TransactionCard } from '../components/Expense/TransactionCard';
 import { UpdateTransactionDialog } from '../components/Expense/UpdateTransactionDialog';
+import { useTransactionFilter } from '@/hooks/market/useTransactionFilter';
 import {
   Box,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
 } from '@mui/material';
-
-type TransactionFilter = 'all' | 'mine';
 
 type ExpenseDialogState =
   | {
@@ -40,14 +39,13 @@ export const ExpensePage = ({ userUid }: ExpensePageProps) => {
   } = useExpenseOperation();
 
   const [dialog, setDialog] = useState<ExpenseDialogState>(null);
-  const [filter, setFilter] = useState<TransactionFilter>('all');
 
   const handleClose = () => setDialog(null);
 
-  const filteredTransations =
-    filter === 'mine'
-      ? transactions.filter((item) => item.userUid === userUid)
-      : transactions;
+  const { filteredTransactions, filter, updateFilter } = useTransactionFilter({
+    userUid,
+    transactions,
+  });
 
   return (
     <Box>
@@ -62,8 +60,8 @@ export const ExpensePage = ({ userUid }: ExpensePageProps) => {
       </Box>
 
       <ToggleButtonGroup
-        value={filter}
-        onChange={(_, value) => setFilter(value)}
+        value={filter.owner}
+        onChange={(_, value) => updateFilter({ owner: value })}
         size="small"
         exclusive
       >
@@ -71,10 +69,10 @@ export const ExpensePage = ({ userUid }: ExpensePageProps) => {
         <ToggleButton value="mine">自分</ToggleButton>
       </ToggleButtonGroup>
 
-      <ExpenseSummaryChart transactions={filteredTransations} />
+      <ExpenseSummaryChart transactions={filteredTransactions} />
 
       <Box>
-        {filteredTransations.map((item) => (
+        {filteredTransactions.map((item) => (
           <TransactionCard
             key={item.id}
             transaction={item}
