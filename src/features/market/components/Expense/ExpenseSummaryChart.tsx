@@ -8,46 +8,83 @@ import {
 import { BarChart } from '@mui/x-charts/BarChart';
 
 interface ExpenseSummaryChartProps {
+  userUid: string;
   transactions: Transaction[];
 }
 
 export const ExpenseSummaryChart = ({
+  userUid,
   transactions,
 }: ExpenseSummaryChartProps) => {
   const monthlyData = useMemo(() => {
-    const amounts = new Map<string, number>();
+    const amounts = new Map<
+      string,
+      {
+        mine: number;
+        others: number;
+      }
+    >();
     for (const transaction of transactions) {
       const date = transaction.date;
       const month = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}`;
-      amounts.set(month, (amounts.get(month) ?? 0) + transaction.amount);
+      const current = amounts.get(month) ?? {
+        mine: 0,
+        others: 0,
+      };
+      if (transaction.userUid === userUid) {
+        current.mine += transaction.amount;
+      } else {
+        current.others += transaction.amount;
+      }
+      amounts.set(month, current);
     }
     return Array.from(amounts, ([date, amount]) => ({
       date,
-      amount,
+      ...amount,
     })).sort((a, b) => a.date.localeCompare(b.date));
-  }, [transactions]);
+  }, [userUid, transactions]);
 
   const categoryData = useMemo(() => {
-    const amounts = new Map<Category, number>(
-      CATEGORIES.map((category) => [category, 0])
+    const amounts = new Map<
+      Category,
+      {
+        mine: number;
+        others: number;
+      }
+    >(
+      CATEGORIES.map((category) => [
+        category,
+        {
+          mine: 0,
+          others: 0,
+        },
+      ])
     );
     for (const transaction of transactions) {
-      amounts.set(
-        transaction.category,
-        (amounts.get(transaction.category) ?? 0) + transaction.amount
-      );
+      const current = amounts.get(transaction.category) ?? {
+        mine: 0,
+        others: 0,
+      };
+      if (transaction.userUid === userUid) {
+        current.mine += transaction.amount;
+      } else {
+        current.others += transaction.amount;
+      }
+      amounts.set(transaction.category, current);
     }
     return Array.from(amounts, ([category, amount]) => ({
       category,
-      amount,
+      ...amount,
     }));
-  }, [transactions]);
+  }, [userUid, transactions]);
 
   const months = monthlyData.map((item) => item.date);
-  const monthAmounts = monthlyData.map((item) => item.amount);
+  const mineMonthAmounts = monthlyData.map((item) => item.mine);
+  const otherMonthAmounts = monthlyData.map((item) => item.others);
 
   const categories = categoryData.map((item) => item.category);
-  const categoryAmounts = categoryData.map((item) => item.amount);
+  const mineCategoryAmounts = categoryData.map((item) => item.mine);
+  const otherCategoryAmounts = categoryData.map((item) => item.others);
 
   return (
     <>
@@ -60,7 +97,14 @@ export const ExpenseSummaryChart = ({
         ]}
         series={[
           {
-            data: monthAmounts,
+            data: mineMonthAmounts,
+            label: '自分',
+            stack: 'total',
+          },
+          {
+            data: otherMonthAmounts,
+            label: 'その他',
+            stack: 'total',
           },
         ]}
         height={200}
@@ -82,7 +126,12 @@ export const ExpenseSummaryChart = ({
         ]}
         series={[
           {
-            data: categoryAmounts,
+            data: mineCategoryAmounts,
+            stack: 'total',
+          },
+          {
+            data: otherCategoryAmounts,
+            stack: 'total',
           },
         ]}
         height={200}

@@ -69,7 +69,10 @@ export const ExpensePage = ({ userUid }: ExpensePageProps) => {
         <ToggleButton value="mine">自分</ToggleButton>
       </ToggleButtonGroup>
 
-      <ExpenseSummaryChart transactions={filteredTransactions} />
+      <ExpenseSummaryChart
+        userUid={userUid}
+        transactions={filteredTransactions}
+      />
 
       <Box>
         {filteredTransactions.map((item) => (
